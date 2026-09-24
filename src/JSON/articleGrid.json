@@ -1,0 +1,82 @@
+[
+  {
+    "id": 1,
+    "title": "The Evolution of Anime",
+    "description": "Discover how anime evolved from traditional Japanese animation into a worldwide cultural phenomenon.",
+    "category": "ANIME",
+    "date": "Sep 24, 2026",
+    "readTime": "6 min read",
+    "author": "FandomVerse",
+    "image": ""
+  },
+  {
+    "id": 2,
+    "title": "Inside the World of Manga",
+    "description": "Explore the creative world of manga, from legendary artists to the stories that shaped modern anime culture.",
+    "category": "MANGA",
+    "date": "Sep 23, 2026",
+    "readTime": "5 min read",
+    "author": "FandomVerse",
+    "image": "/images/articles/manga-world.jpg"
+  },
+  {
+    "id": 3,
+    "title": "The Rise of Shonen Heroes",
+    "description": "From powerful transformations to unforgettable battles, discover what makes shonen heroes so iconic.",
+    "category": "SHONEN",
+    "date": "Sep 22, 2026",
+    "readTime": "7 min read",
+    "author": "FandomVerse",
+    "image": "/images/articles/shonen-heroes.jpg"
+  },
+  {
+    "id": 4,
+    "title": "Anime Worlds Beyond Imagination",
+    "description": "Take a journey through the fictional worlds that continue to inspire millions of anime fans around the globe.",
+    "category": "WORLDS",
+    "date": "Sep 21, 2026",
+    "readTime": "4 min read",
+    "author": "FandomVerse",
+    "image": "/images/articles/anime-worlds.jpg"
+  },
+  {
+    "id": 5,
+    "title": "The Art Behind Iconic Characters",
+    "description": "Learn how character design, visual identity and storytelling work together to create memorable anime characters.",
+    "category": "CHARACTERS",
+    "date": "Sep 20, 2026",
+    "readTime": "6 min read",
+    "author": "FandomVerse",
+    "image": "/images/articles/iconic-characters.jpg"
+  },
+  {
+    "id": 6,
+    "title": "Legends of Japanese Animation",
+    "description": "A closer look at the creative ideas and artistic traditions that helped shape the history of Japanese animation.",
+    "category": "HISTORY",
+    "date": "Sep 19, 2026",
+    "readTime": "8 min read",
+    "author": "FandomVerse",
+    "image": "/images/articles/japanese-animation.jpg"
+  },
+  {
+    "id": 7,
+    "title": "Why Anime Communities Matter",
+    "description": "Anime brings people together through shared stories, characters, discussions, creativity and fan communities.",
+    "category": "COMMUNITY",
+    "date": "Sep 18, 2026",
+    "readTime": "5 min read",
+    "author": "FandomVerse",
+    "image": "/images/articles/anime-community.jpg"
+  },
+  {
+    "id": 8,
+    "title": "From Screen to Global Culture",
+    "description": "Explore how anime moved beyond television and became an influential part of global entertainment and pop culture.",
+    "category": "CULTURE",
+    "date": "Sep 17, 2026",
+    "readTime": "7 min read",
+    "author": "FandomVerse",
+    "image": "/images/articles/global-anime.jpg"
+  }
+]

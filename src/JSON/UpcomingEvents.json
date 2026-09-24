@@ -1,0 +1,35 @@
+[
+  {
+    "id": 1,
+    "image": "https://images.unsplash.com/photo-1578632767115-351597cf2477?q=80&w=1200&auto=format&fit=crop",
+    "date": "05",
+    "month": "MAR",
+    "category": "Anime",
+    "title": "Anime Fan Expo 2026",
+    "location": "Paris, France",
+    "eventDate": "2026-03-05",
+    "description": "Panels, cosplay and community meetups celebrating everything Anime."
+  },
+  {
+    "id": 2,
+    "image": "https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=1200&auto=format&fit=crop",
+    "date": "12",
+    "month": "MAR",
+    "category": "Gaming",
+    "title": "Gaming Meetup 2026",
+    "location": "Singapore",
+    "eventDate": "2026-03-12",
+    "description": "Meet gamers, discover new worlds and enjoy an exciting gaming community."
+  },
+  {
+    "id": 3,
+    "image": "https://images.unsplash.com/photo-1536440136628-849c177e76a1?q=80&w=1200&auto=format&fit=crop",
+    "date": "20",
+    "month": "MAR",
+    "category": "Movies",
+    "title": "Movies Fan Meet 2026",
+    "location": "London, UK",
+    "eventDate": "2026-03-20",
+    "description": "A fun gathering for movie lovers, fans and cinematic experiences."
+  }
+]

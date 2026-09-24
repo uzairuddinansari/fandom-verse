@@ -1,0 +1,21 @@
+#tab_button{
+    width: 70px;
+    height: 50px;
+    padding: 10px 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: rgb(232, 233, 235);
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+#tab{
+    width: 100vw;
+    height: 120px;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
