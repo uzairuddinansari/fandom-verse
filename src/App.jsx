@@ -38,6 +38,17 @@ import G_Events from "./components/Gaming/G_Events";
 import G_Merch from "./components/Gaming/G_Merch";
 import G_Trailers from "./components/Gaming/G_Trailers";
 
+// movies 
+import Movies from "./components/Movies/Movies";
+import M_Article from "./components/Movies/M_Article";
+import M_Gallery from "./components/Movies/M_Gallery";
+import M_Video from "./components/Movies/M_Video";
+import M_Audio from "./components/Movies/M_Audio";
+import M_Characters from "./components/Movies/M_Characters";
+import M_Events from "./components/Movies/M_Events";
+import M_Merch from "./components/Movies/M_Merch";
+import M_Trailers from "./components/Movies/M_Trailers";
+
 
 function App() {
   return (
@@ -90,7 +101,20 @@ function App() {
   <Route path="merch" element={<G_Merch />} />
   <Route path="trailers" element={<G_Trailers />} />
 </Route>
-            
+
+{/* Movies Route  */}
+
+<Route path="/Movies" element={<Movies />}>
+  <Route index element={<M_Article />} />
+  <Route path="gallery" element={<M_Gallery />} />
+  <Route path="videos" element={<M_Video />} />
+  <Route path="audio" element={<M_Audio />} />
+  <Route path="characters" element={<M_Characters />} />
+  <Route path="events" element={<M_Events />} />
+  <Route path="merch" element={<M_Merch />} />
+  <Route path="trailers" element={<M_Trailers />} />
+</Route>
+
         <Route path="/TechwizJourney" element={<TechwizJourney/>}/>
         </Routes> 
       </div>

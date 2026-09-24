@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import articleData from "../../JSON/articleGrid.json";
 import "../../styles/ArticleGrid.css";
+import articleImages from "../../JSON/articleImages.js";
 
 const STORAGE_KEY = "fandomverse_saved_articles";
 
@@ -11,7 +12,7 @@ const ArticleGrid = () => {
   useEffect(() => {
     try {
       const storedArticles = localStorage.getItem(STORAGE_KEY);
-
+      console.log(articleImages);
       if (storedArticles) {
         setSavedArticles(JSON.parse(storedArticles));
       }
@@ -108,11 +109,11 @@ const ArticleGrid = () => {
                 <div className="article-image-wrapper">
 
                   <img
-                    src={article.image}
-                    alt={article.title}
-                    className="article-image"
-                    loading="lazy"
-                  />
+  src={articleImages[index]}
+  alt={article.title}
+  className="article-image"
+  loading="lazy"
+/>
 
                   {/* Category */}
                   {article.category && (

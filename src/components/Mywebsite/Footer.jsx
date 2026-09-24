@@ -5,7 +5,6 @@ const AnimeFooter = () => {
   const [subbedJP, setSubbedJP] = useState(true);
   const [currentIndex, setCurrentIndex] = useState(0);
 
-
   const animeCharacters = [
     {
       id: 'luffy',
