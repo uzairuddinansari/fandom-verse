@@ -2,23 +2,24 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { ArrowUp, CalendarDays, Clock3, Minus, Plus, ShoppingBag, Trash2, Users, X } from "lucide-react";
 import { formatPrice } from "../../fandom/catalog";
-import { cartTotals, changeQuantity, clearCart, useCart } from "../../fandom/store";
+import { cartTotals, changeQuantity, clearCart, useCart, usePromo } from "../../fandom/store";
+import { computeTotals, getShippingChoice, productPath } from "../../fandom/shop";
+import { useAuth } from "../../fandom/auth";
 import Chatbot from "./Chatbot";
 import { toast, useConfirm } from "../ui/feedback";
 import { trackPageView } from "../../fandom/analytics";
 
-const TAX_RATE = 0.05;
-
 function CartDrawer({ open, onClose }) {
   const cart = useCart();
-  const { count, subtotal } = cartTotals(cart);
-  const shipping = subtotal === 0 || subtotal >= 100 ? 0 : 6;
-  const tax = subtotal * TAX_RATE;
+  const user = useAuth();
+  const promoCode = usePromo();
+  const totals = computeTotals(cart, { promoCode, shippingId: getShippingChoice(), user });
+  const { count } = totals;
   const closeRef = useRef(null);
   const confirm = useConfirm();
 
   const emptyCart = async () => {
-    const ok = await confirm({ tone: "danger", title: "Empty your cart?", message: `All ${count} items will be removed from the temporary cart.`, confirmLabel: "Empty cart" });
+    const ok = await confirm({ tone: "danger", title: "Empty your cart?", message: `All ${count} items will be removed from your cart.`, confirmLabel: "Empty cart" });
     if (!ok) return;
     clearCart();
     toast("Your cart is empty.", { type: "info", title: "Cart cleared" });
@@ -39,7 +40,7 @@ function CartDrawer({ open, onClose }) {
       <aside className="fv-drawer" role="dialog" aria-modal="true" aria-label="Shopping cart" onMouseDown={(event) => event.stopPropagation()}>
         <header>
           <div>
-            <span className="fv-eyebrow">Temporary cart</span>
+            <span className="fv-eyebrow">{user ? `${user.name.split(" ")[0]}’s cart` : "Your cart"}</span>
             <h2>Your items ({count})</h2>
           </div>
           <button ref={closeRef} type="button" className="fv-icon-button" onClick={onClose} aria-label="Close cart">
@@ -51,18 +52,18 @@ function CartDrawer({ open, onClose }) {
           <div className="fv-empty fv-drawer-empty">
             <ShoppingBag size={32} />
             <h3>Your cart is empty</h3>
-            <p>Open any merch item and choose “Add to cart”.</p>
-            <Link className="fv-button" to="/search?type=merchandise" onClick={onClose}>Browse merchandise</Link>
+            <p>Find figures, apparel and collectibles from every fandom.</p>
+            <Link className="fv-button" to="/shop" onClick={onClose}>Browse the shop</Link>
           </div>
         ) : (
           <>
             <ul className="fv-cart-lines">
               {cart.map((line) => (
                 <li key={line.lineId}>
-                  <img src={line.image} alt="" />
+                  <Link to={productPath(line)} onClick={onClose}><img src={line.image} alt="" /></Link>
                   <div>
                     <strong>{line.title}</strong>
-                    <small>{line.categoryName} · {line.edition}</small>
+                    <small>{line.categoryName} · {line.edition}{line.size ? ` · ${line.size}` : ""}</small>
                     <div className="fv-qty">
                       <button type="button" onClick={() => changeQuantity(line.lineId, -1)} aria-label={`Decrease ${line.title}`}><Minus size={14} /></button>
                       <span aria-label="Quantity">{line.quantity}</span>
@@ -74,13 +75,14 @@ function CartDrawer({ open, onClose }) {
               ))}
             </ul>
             <dl className="fv-cart-summary">
-              <div><dt>Subtotal</dt><dd>{formatPrice(subtotal)}</dd></div>
-              <div><dt>Shipping {subtotal >= 100 && <small>(free over $100)</small>}</dt><dd>{shipping ? formatPrice(shipping) : "Free"}</dd></div>
-              <div><dt>Tax (5%)</dt><dd>{formatPrice(tax)}</dd></div>
-              <div className="total"><dt>Total</dt><dd>{formatPrice(subtotal + shipping + tax)}</dd></div>
+              <div><dt>Subtotal</dt><dd>{formatPrice(totals.subtotal)}</dd></div>
+              {totals.discount > 0 && <div><dt>Discount · {totals.promo.code}</dt><dd>−{formatPrice(totals.discount)}</dd></div>}
+              <div><dt>{totals.shippingOption.label}</dt><dd>{totals.shipping ? formatPrice(totals.shipping) : "Free"}</dd></div>
+              <div><dt>Tax</dt><dd>{formatPrice(totals.tax)}</dd></div>
+              <div className="total"><dt>Total</dt><dd>{formatPrice(totals.total)}</dd></div>
             </dl>
             <footer>
-              <button type="button" className="fv-button" disabled title="Checkout is not part of this demo">Checkout unavailable (demo)</button>
+              <Link className="fv-button" to="/cart" onClick={onClose}>View cart &amp; checkout</Link>
               <button type="button" className="fv-button-outline danger" onClick={emptyCart}><Trash2 size={15} /> Empty cart</button>
             </footer>
           </>

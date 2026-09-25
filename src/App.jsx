@@ -30,6 +30,8 @@ import CartPage from "./pages/CartPage";
 import CheckoutPage from "./pages/CheckoutPage";
 import OrderPage from "./pages/OrderPage";
 import ProfilePage from "./pages/ProfilePage";
+import TeamPage from "./pages/TeamPage";
+import SitemapPage from "./pages/SitemapPage";
 import { RequireAuth } from "./components/shop/ShopUI";
 import { sections } from "./fandom/catalog";
 import "./styles/UXPolish.css";
@@ -77,6 +79,9 @@ export default function App() {
             <Route path="/about" element={<AboutPage />} />
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/account" element={<AccountPage />} />
+            <Route path="/team" element={<TeamPage />} />
+            <Route path="/team/:slug" element={<TeamPage />} />
+            <Route path="/sitemap" element={<SitemapPage />} />
             <Route path="/shop" element={<ShopPage />} />
             <Route path="/shop/:category/:id" element={<ProductPage />} />
             <Route path="/cart" element={<CartPage />} />

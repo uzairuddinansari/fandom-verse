@@ -69,8 +69,8 @@ function ProductPanel({ item }) {
       >
         <ShoppingBag size={17} /> Add to cart · {formatPrice(price)}
       </button>
-      {added && <p className="fv-note" role="status">Added to your temporary cart.</p>}
-      <small className="fv-muted">Demo shop: checkout and payment are not included.</small>
+      {added && <p className="fv-note" role="status">Added to your cart.</p>}
+      <small className="fv-muted">Demo shop: checkout saves an order to your profile — no payment is taken.</small>
     </div>
   );
 }

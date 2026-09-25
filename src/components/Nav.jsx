@@ -2,17 +2,16 @@ import { useEffect, useState } from "react";
 import Shutter from "./Shutter";
 import "../styles/Nav.css";
 import logo from "../assets/Nav/Nav_logo.png"
-import { Link, NavLink, useNavigate } from "react-router-dom";
-import { Bookmark, UserRound } from "lucide-react";
+import { Link, NavLink } from "react-router-dom";
+import NavSearch from "./NavSearch";
+import { Bookmark, ShoppingBag } from "lucide-react";
+import UserMenu from "./shop/UserMenu";
 import { useBookmarks } from "../fandom/store";
 
 const Nav = () => {
   const [open, setOpen] = useState(false);
-  const [searchOpen, setSearchOpen] = useState(false);
-  const [query, setQuery] = useState("");
   const [scrolled, setScrolled] = useState(false);
   const bookmarks = useBookmarks();
-  const navigate = useNavigate();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -20,17 +19,6 @@ const Nav = () => {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
-
-  const submitSearch = (event) => {
-    event.preventDefault();
-    if (searchOpen && query.trim()) {
-      navigate(`/search?q=${encodeURIComponent(query.trim())}`);
-      setSearchOpen(false);
-      setQuery("");
-      return;
-    }
-    setSearchOpen(true);
-  };
 
   return (
     <>
@@ -41,30 +29,19 @@ const Nav = () => {
           </Link>
 
           <div className="nav_right">
-            <form className={`nav_search ${searchOpen ? "search_open" : ""}`} onSubmit={submitSearch} role="search">
-              {searchOpen ? (
-                <input
-                  autoFocus
-                  type="search"
-                  value={query}
-                  onChange={(event) => setQuery(event.target.value)}
-                  onBlur={() => !query && setSearchOpen(false)}
-                  placeholder="Search every fandom"
-                  aria-label="Search every fandom"
-                />
-              ) : <span aria-hidden="true">Search</span>}
-              <button type="submit" aria-label={searchOpen ? "Submit search" : "Open search"}>⌕</button>
-            </form>
+            <NavSearch />
 
             <NavLink to="/bookmarks" className="nav_pill nav_bookmarks" aria-label={`Bookmarks (${bookmarks.length})`}>
               <Bookmark size={16} />
               {bookmarks.length > 0 && <span>{bookmarks.length}</span>}
             </NavLink>
 
-            <NavLink to="/account" className="nav_pill nav_login">
-              <UserRound size={16} />
-              <span>Log in</span>
+            <NavLink to="/shop" className="nav_pill nav_shop">
+              <ShoppingBag size={16} />
+              <span>Shop</span>
             </NavLink>
+
+            <UserMenu />
 
             <button className="nav_menu" onClick={() => setOpen(true)} aria-haspopup="dialog" aria-expanded={open}>
               <span>Menu</span>

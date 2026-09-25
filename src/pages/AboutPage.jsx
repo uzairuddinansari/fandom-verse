@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Accessibility, Bookmark, Bot, Layers, Search, ShoppingBag } from "lucide-react";
-import team from "../JSON/team.json";
+import team from "../fandom/team";
 import { allContent, categories } from "../fandom/catalog";
 import Breadcrumbs from "../components/fandom/Breadcrumbs";
 import "../styles/Fandom.css";
@@ -9,7 +9,7 @@ const features = [
   [Layers, "Seven hubs", "Anime, Gaming, Movies, TV Shows, K-Pop, Comics and Manga — each with articles, galleries, videos, audio, characters, events, merch and trailers."],
   [Search, "Global search", "Search every item across all hubs and filter by category, type and sort order."],
   [Bookmark, "Bookmarks & notes", "Save anything, add session-only notes and export your list."],
-  [ShoppingBag, "Merch showcase", "Browse fan products and add them to a temporary cart that totals your bill."],
+  [ShoppingBag, "Merch showcase", "Browse the store, fill a cart with promo codes and delivery options, and check out with a free fan account."],
   [Bot, "Nova, the chatbot", "A rule-based assistant that answers FAQs and recommends content."],
   [Accessibility, "Accessible by design", "Keyboard navigation, visible focus, strong contrast and reduced-motion support."],
 ];
@@ -78,7 +78,11 @@ export default function AboutPage() {
           <p className="fv-muted">
             Franchise names and artwork belong to their respective owners and are shown here for educational, non-commercial purposes.
           </p>
-          <Link className="fv-button" to="/contact">Contact the team</Link>
+          <div className="fv-actions">
+            <Link className="fv-button" to="/team">Meet the team</Link>
+            <Link className="fv-button-outline" to="/contact">Contact us</Link>
+            <Link className="fv-button-outline" to="/sitemap">Site map</Link>
+          </div>
         </section>
       </div>
     </main>

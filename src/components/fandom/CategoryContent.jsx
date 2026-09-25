@@ -12,7 +12,7 @@ const sectionCopy = {
   audio: ["Audio & podcasts", "Podcast-style episodes and soundtracks from the community."],
   characters: ["Character profiles", "Names, series, biographies and traits of the most iconic characters."],
   events: ["Event highlights", "Conventions, watch parties and meetups — upcoming and past."],
-  merchandise: ["Merchandise showcase", "Fan collectibles, apparel and accessories. Add items to a temporary cart to see your total."],
+  merchandise: ["Merchandise showcase", "Fan collectibles, apparel and accessories. Open any item to choose an edition and size, then add it to your cart."],
   trailers: ["Trailers", "Upcoming and recently released trailers for this hub."],
 };
 

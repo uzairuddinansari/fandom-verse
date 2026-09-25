@@ -2,14 +2,16 @@ import { useLayoutEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import "../../styles/WhereStarted.css";
-import Group from "../../assets/hero_final.png"
+import teamPhoto from "../../assets/hero_final.png";
+import whereStarted from "../../assets/team/where-started.jpg";
+import challengePhoto from "../../assets/HERO/Anime.jpeg";
 
 gsap.registerPlugin(ScrollTrigger);
 
 const story = [
   {
     type: "image",
-    image: "https://lh3.googleusercontent.com/d/1FPGuFZhGBEUp_-cDq8vkSPjPonVDptYP",
+    image: whereStarted,
     number: "01",
     title: "TICKET TO TECHWIZ",
   },
@@ -21,7 +23,7 @@ const story = [
   },
   {
     type: "image",
-    image: "/images/team.jpg",
+    image: teamPhoto,
     number: "03",
     title: "OUR TEAM",
   },
@@ -33,7 +35,7 @@ const story = [
   },
   {
     type: "image",
-    image: {Group},
+    image: challengePhoto,
     number: "05",
     title: "THE CHALLENGE",
   },

@@ -108,7 +108,7 @@ export default function SettingsPage() {
             <button type="button" className="adm-btn adm-btn-danger" onClick={() => danger({ title: "Clear all bookmarks?", message: "All bookmarks saved in this browser will be removed.", confirmLabel: "Clear bookmarks" }, clearBookmarks, "Cleared bookmarks")}>
               <Trash2 size={15} /> Clear bookmarks
             </button>
-            <button type="button" className="adm-btn adm-btn-danger" onClick={() => danger({ title: "Empty the shopping cart?", message: "Every product in the temporary cart will be removed.", confirmLabel: "Empty cart" }, clearCart, "Emptied the cart")}>
+            <button type="button" className="adm-btn adm-btn-danger" onClick={() => danger({ title: "Empty the shopping cart?", message: "Every product in this browser’s guest cart will be removed.", confirmLabel: "Empty cart" }, clearCart, "Emptied the cart")}>
               <Trash2 size={15} /> Empty cart
             </button>
           </div>

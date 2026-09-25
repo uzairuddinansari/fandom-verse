@@ -39,15 +39,37 @@ The `dist/` folder is a static site and can be hosted on any static host (Netlif
 | Character profiles (5+ per hub) | Characters tab, filterable by franchise |
 | Events (3+ per hub) | Events tab plus a release calendar at `/releases` |
 | Trailers filtered by release status | Trailers tab in every hub plus the `/Trailers` page |
-| Merchandise and a temporary cart with totals | Merch tab → product modal → cart drawer (no checkout) |
+| Merchandise and a cart with totals | `/shop` store → product page (edition, size, quantity) → `/cart` (promo codes, delivery, tax, total) |
 | AI chatbot (rule-based) | `components/fandom/Chatbot.jsx`, answers from `JSON/chatbot.json` |
 | Bookmarks, session-only notes, export | `pages/BookmarksPage.jsx` (localStorage + sessionStorage, .txt/.csv export) |
 | Contact with Google Map and GPS | `pages/ContactPage.jsx` |
 | About us | `pages/AboutPage.jsx` |
+| Team portfolio (extra) | `/team` and `/team/:member` — skills, contributions, featured work and tools used, from `JSON/team.json` |
+| Site map | `/sitemap` — every page, generated from `JSON/sitemap.json` and the hub catalog |
 | Visitor counter and real-time clock | Bottom-left status bar (`components/fandom/SiteTools.jsx`) |
 | Breadcrumbs | Every hub, section and detail page |
-| Dummy login / signup | `/account` (UI only) |
+| Login / signup | `/account` — working client-side accounts from `JSON/users.json` (see below) |
 | Admin panel (extra) | `/admin` — see below |
+
+## User accounts and shop
+
+**Demo accounts** (from `src/JSON/users.json`, passwords stored as SHA-256 hashes):
+
+| Name | Email | Password |
+| --- | --- | --- |
+| Demo Fan | demo@fandomverse.example | Fandom@123 |
+| Aiko Tanaka | aiko@fandomverse.example | Otaku#2026 |
+
+The user journey:
+
+1. **Browse** `/shop` — search, filter by hub, category, price and stock, and sort by price, rating or name.
+2. **Product page** — choose an edition (Standard/Deluxe) and a size for apparel; quantity is capped by the stock in `shop.json`.
+3. **Cart** `/cart` — change quantities, apply promo codes (`FANDOM10`, `FREESHIP`, and members-only `WELCOME5`), pick delivery and see subtotal, discount, delivery, tax and total.
+4. **Log in or sign up** — checkout requires an account; the guest cart moves into the account on login and you return to checkout.
+5. **Checkout** `/checkout` — delivery details only (no payment is collected), then an order confirmation at `/orders/:id`.
+6. **Profile** `/profile` — overview, order history, wishlist, profile settings (name, bio, avatar colour, favourite hubs) and security (change password, log out, delete account).
+
+Shop rules — shipping options, free-delivery threshold, tax rate, promo codes, sizes, stock, ratings and badges — all live in `src/JSON/shop.json`. New accounts, orders and carts are stored in the browser (`localStorage`), because the site cannot write to its JSON files.
 
 ## Admin panel
 
@@ -56,6 +78,7 @@ Open `/admin` and sign in with the demo account **admin / fandom2026** (a front-
 - **Dashboard** — live content counts, page views for the last 14 days, visits, bookmarks, cart value, upcoming releases and recent admin activity.
 - **Content** — search and filter all 300+ items by hub, type and state; feature, hide, edit or restore any item.
 - **Add content** — create articles, characters, events, merchandise, trailers, videos, audio or gallery images, with an image picker for every bundled asset and a live card preview.
+- **Customers** — every account (from `users.json` and browser sign-ups) with orders and spend, plus a recent-orders table.
 - **Analytics** — page views and visits per day (7/14/30 days), views by hub, bookmarks by type and a full page table.
 - **Chatbot** — add answers that take priority over the built-in knowledge base, and test how Nova replies.
 - **Appearance** — six accessible theme presets, custom colours and fonts; applied to the whole site instantly.
@@ -68,6 +91,9 @@ Admin changes are stored in `localStorage` and layered over the JSON files when 
 - `src/JSON/fandomCatalog.json` — galleries, videos, audio, characters, events, merchandise and trailers for every hub.
 - `src/JSON/<Category>/*.json` — the articles for each hub.
 - `src/JSON/chatbot.json` — the chatbot's FAQ answers, quick replies and recommendation rules.
+- `src/JSON/shop.json` — shop rules, promo codes, shipping, and per-product stock, ratings and sizes.
+- `src/JSON/users.json` — demo user accounts.
+- `src/JSON/sitemap.json` — site map groups and pages.
 - `src/JSON/team.json` — team members and studio contact details (replace the placeholders with your own).
 
 Images are referenced by their path inside `src/assets` (for example `"Game_Article/ELDEN RING.png"`). `src/fandom/catalog.js` resolves every path to a bundled file, so adding content only means editing JSON.

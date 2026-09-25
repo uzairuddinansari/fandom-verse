@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import "../../styles/WhatWeLearned.css";
+import teamPhoto from "../../assets/hero_final.png";
 
 const lessons = [
   {
@@ -120,7 +121,7 @@ const lessons = [
   {
     number: "05",
     title: "CONFIDENCE",
-    image: "https://images.unsplash.com/photo-1524178232363-1fb2b075e655?auto=format&fit=crop&w=1200&q=85",
+    image: teamPhoto,
     text: (
       <>
         <p>
@@ -246,7 +247,7 @@ function WhatWeLearned() {
           <div className="hero-team-image">
 
             <img
-              src="/images/team-techwiz.jpg"
+              src={teamPhoto}
               alt="Ticket to Techwiz team"
             />
 

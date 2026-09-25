@@ -144,8 +144,8 @@ export default function AppearancePage() {
           <Panel title="Preview">
             <div className="adm-theme-preview">
               <span className="fv-eyebrow">FandomVerse / Anime</span>
-              <h3 style={{ fontFamily: typography.headingFont, fontWeight: typography.headingWeight }}>Enter the Anime World</h3>
-              <p style={{ fontFamily: typography.bodyFont }}>Legendary battles, unforgettable heroes and the stories that shaped a global fandom.</p>
+              <h3 style={{ fontFamily: `"${typography.headingFont}", system-ui, sans-serif`, fontWeight: typography.headingWeight }}>Enter the Anime World</h3>
+              <p style={{ fontFamily: `"${typography.bodyFont}", system-ui, sans-serif` }}>Legendary battles, unforgettable heroes and the stories that shaped a global fandom.</p>
               <div className="adm-actions">
                 <span className="fv-button">Primary button</span>
                 <span className="fv-button-outline">Outline</span>

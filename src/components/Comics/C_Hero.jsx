@@ -36,7 +36,8 @@ const comicCards = [
 
 export default function Comecs_Hero() {
   return (
-    <section className="marvel-hero">
+    <section className="marvel-hero" aria-labelledby="comics-hero-title">
+      <h1 id="comics-hero-title" className="sr-only">Comics — enter the world of heroes</h1>
 
       {/* Background Artwork */}
       <div className="marvel-background">

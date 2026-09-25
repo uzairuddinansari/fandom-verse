@@ -306,13 +306,15 @@ const Shutter = ({ open, setOpen }) => {
         <div ref={leftContentRef} className="left_content">
           <nav className="shutter_links">
             <RollingLink to="/">Home</RollingLink>
+            <RollingLink to="/shop">Shop</RollingLink>
             <RollingLink to="/Trailers">Trailers</RollingLink>
             <RollingLink to="/releases">Releases</RollingLink>
             <RollingLink to="/search">Explore</RollingLink>
             <RollingLink to="/bookmarks">Bookmarks</RollingLink>
             <RollingLink to="/about">About</RollingLink>
+            <RollingLink to="/team">Team</RollingLink>
             <RollingLink to="/contact">Contact</RollingLink>
-            <RollingLink to="/account">Login / Signup</RollingLink>
+            <RollingLink to="/profile">My account</RollingLink>
             <RollingLink to="/admin">Admin</RollingLink>
           </nav>
         </div>
@@ -358,14 +360,14 @@ const Shutter = ({ open, setOpen }) => {
             onMouseLeave={handleMouseLeave}
           >
             <img ref={imageRef} src={project.image} alt={project.title} />
-            <img ref={nextImageRef} alt="" />
+            <img ref={nextImageRef} src={projects[(active + 1) % projects.length].image} alt="" />
 
             <div className="image_overlay" />
           </div>
 
           <div className="project_title">
             <div className="project_text">
-              <h1 ref={titleRef}>{project.title}</h1>
+              <h2 ref={titleRef}>{project.title}</h2>
 
               <div ref={titleClipRef} className="project_title_clip">
                 <p ref={descriptionRef}>{project.description}</p>

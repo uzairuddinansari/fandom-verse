@@ -12,6 +12,7 @@ import {
   Palette,
   Settings,
   ShieldCheck,
+  Users,
   X,
 } from "lucide-react";
 import logo from "../assets/Nav/Nav_logo.png";
@@ -23,6 +24,7 @@ import AnalyticsPage from "./AnalyticsPage";
 import ChatbotManager from "./ChatbotManager";
 import AppearancePage from "./AppearancePage";
 import SettingsPage from "./SettingsPage";
+import CustomersPage from "./CustomersPage";
 import { FieldError, FormAlert } from "../components/ui/FormFeedback";
 import { fieldA11y, focusFirstError, rules, toast, validateForm } from "../components/ui/feedback";
 import "../styles/Admin.css";
@@ -31,6 +33,7 @@ const menu = [
   { to: "/admin", label: "Dashboard", icon: LayoutDashboard, end: true },
   { to: "/admin/content", label: "Content", icon: Layers, end: true },
   { to: "/admin/content/new", label: "Add content", icon: FilePlus2 },
+  { to: "/admin/customers", label: "Customers", icon: Users },
   { to: "/admin/analytics", label: "Analytics", icon: BarChart3 },
   { to: "/admin/chatbot", label: "Chatbot", icon: Bot },
   { to: "/admin/appearance", label: "Appearance", icon: Palette },
@@ -67,7 +70,10 @@ function AdminLogin() {
       toast("You’re signed in to the control centre.", { title: "Welcome back" });
       navigate(location.state?.from || "/admin", { replace: true });
     } else {
+      // The alert explains the failure, so the cleared password field shouldn't also shout "required".
       setFailed((count) => count + 1);
+      setSubmitted(false);
+      setTouched((current) => ({ ...current, password: false }));
       setValues((current) => ({ ...current, password: "" }));
       formRef.current?.querySelector('[name="password"]')?.focus();
     }
@@ -212,6 +218,7 @@ export default function AdminApp() {
         <Route path="analytics" element={<AnalyticsPage />} />
         <Route path="chatbot" element={<ChatbotManager />} />
         <Route path="appearance" element={<AppearancePage />} />
+        <Route path="customers" element={<CustomersPage />} />
         <Route path="settings" element={<SettingsPage />} />
         <Route path="*" element={<Navigate to="/admin" replace />} />
       </Route>

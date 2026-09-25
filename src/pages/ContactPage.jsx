@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import { Clock3, LocateFixed, Mail, MapPin, Navigation, Phone, Send } from "lucide-react";
-import team from "../JSON/team.json";
+import team from "../fandom/team";
 import Breadcrumbs from "../components/fandom/Breadcrumbs";
 import { ErrorSummary, FieldError, FieldHint, FormAlert } from "../components/ui/FormFeedback";
 import { fieldA11y, focusFirstError, rules, toast, validateForm } from "../components/ui/feedback";

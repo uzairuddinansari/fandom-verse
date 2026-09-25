@@ -153,9 +153,12 @@ function SecuritySettings({ user }) {
   };
 
   const signOut = () => {
+    // Leave the members-only page first, then end the session on the next tick.
     navigate("/");
-    logOut();
-    toast("See you soon!", { type: "info", title: "Logged out" });
+    setTimeout(() => {
+      logOut();
+      toast("See you soon!", { type: "info", title: "Logged out" });
+    }, 0);
   };
 
   const remove = async () => {
@@ -167,8 +170,10 @@ function SecuritySettings({ user }) {
     });
     if (!ok) return;
     navigate("/");
-    deleteAccount();
-    toast("Your account and its data were removed from this browser.", { type: "info", title: "Account deleted" });
+    setTimeout(() => {
+      deleteAccount();
+      toast("Your account and its data were removed from this browser.", { type: "info", title: "Account deleted" });
+    }, 0);
   };
 
   const field = (name, label, autoComplete) => (

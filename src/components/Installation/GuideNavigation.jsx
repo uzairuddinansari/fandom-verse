@@ -1,36 +1,21 @@
-const guideSections = [
-  { id: "introduction", number: "00", title: "Introduction" },
-  { id: "requirements", number: "01", title: "Requirements" },
-  { id: "installation", number: "02", title: "Installation" },
-  { id: "environment", number: "03", title: "Environment" },
-  { id: "admin", number: "04", title: "Admin Panel" },
-  { id: "structure", number: "05", title: "Project Structure" },
-  { id: "run", number: "06", title: "Run Project" },
-  { id: "production", number: "07", title: "Production" },
-  { id: "troubleshooting", number: "08", title: "Troubleshooting" }
-];
+import { guideSections } from "./guideSectionList";
 
-function GuideNavigation() {
-  const scrollToSection = id => {
-    document.getElementById(id)?.scrollIntoView({
-      behavior: "smooth",
-      block: "start"
-    });
-  };
-
+function GuideNavigation({ active, progress, onSelect }) {
   return (
-    <aside className="guide-navigation">
+    <aside id="guide-navigation" className="guide-navigation">
       <div className="guide-navigation-heading">
         <span>ON THIS PAGE</span>
         <strong>Guide</strong>
       </div>
 
-      <nav>
+      <nav aria-label="Guide sections">
         {guideSections.map(section => (
           <button
+            type="button"
             key={section.id}
-            className={`guide-nav-item ${section.id === "introduction" ? "active" : ""}`}
-            onClick={() => scrollToSection(section.id)}
+            className={`guide-nav-item ${section.id === active ? "active" : ""}`}
+            aria-current={section.id === active ? "true" : undefined}
+            onClick={() => onSelect(section.id)}
           >
             <span>{section.number}</span>
             <strong>{section.title}</strong>
@@ -41,14 +26,14 @@ function GuideNavigation() {
       <div className="guide-progress">
         <div className="guide-progress-heading">
           <span>SETUP PROGRESS</span>
-          <strong>0%</strong>
+          <strong>{progress}%</strong>
         </div>
 
-        <div className="guide-progress-track">
-          <span />
+        <div className="guide-progress-track" role="progressbar" aria-label="Setup progress" aria-valuenow={progress} aria-valuemin={0} aria-valuemax={100}>
+          <span style={{ width: `${progress}%` }} />
         </div>
 
-        <p>Follow the guide to complete your setup.</p>
+        <p>{progress >= 100 ? "You're all set — happy building!" : "Follow the guide to complete your setup."}</p>
       </div>
     </aside>
   );

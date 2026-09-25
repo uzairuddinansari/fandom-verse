@@ -226,3 +226,13 @@
     height: 220px;
   }
 }
+
+/* Inside the standard page layout the hero already clears the fixed navbar. */
+.gallery-page {
+  padding-bottom: 60px;
+}
+
+.gallery-page .gallery-search {
+  padding: 8px 20px 28px;
+  background: transparent;
+}

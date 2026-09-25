@@ -2,33 +2,37 @@ import { useLayoutEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import "../../styles/TheTeam.css";
+import member01 from "../../assets/team/member-01.png";
+import member02 from "../../assets/team/member-02.png";
+import member03 from "../../assets/team/member-03.png";
+import member04 from "../../assets/team/member-04.png";
 
 gsap.registerPlugin(ScrollTrigger);
 
 const members = [
   {
-    image: "https://lh3.googleusercontent.com/d/1o-BWnHMMP4wcFcbPvNGBkU35-wWHe9k9",
+    image: member01,
     name: "Uzair Ansari",
     role: "Frontend Developer",
     description:
       "Worked on the interface, interactions and overall visual experience of the project.",
   },
   {
-    image: "https://lh3.googleusercontent.com/d/1Lymz5CzX0q0e-JF_PukZTKiCcZs29-g_",
+    image: member02,
     name: "Team Member 02",
     role: "UI / UX Designer",
     description:
       "Focused on visual direction, layouts and creating a clear experience for users.",
   },
   {
-    image: "https://lh3.googleusercontent.com/d/1C-j-eYLyCFsGr-jgWFjV-K6msSBu9zVt",
+    image: member03,
     name: "Team Member 03",
     role: "Research & Planning",
     description:
       "Handled research, planning and helped turn our ideas into a practical direction.",
   },
   {
-    image: "https://lh3.googleusercontent.com/d/1IfFGRA5eDYcidUM-cDdoxjuv6d9fzowY",
+    image: member04,
     name: "Team Member 04",
     role: "Presentation",
     description:

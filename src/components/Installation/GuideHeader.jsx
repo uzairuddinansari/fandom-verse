@@ -1,12 +1,15 @@
-import { ArrowLeft, Menu } from "lucide-react";
+import { ArrowLeft, Menu, X } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
-function GuideHeader() {
+function GuideHeader({ navOpen, onToggleNav }) {
   const navigate = useNavigate();
+
+  // Visitors who land here directly have no in-app history to go back to.
+  const goBack = () => (window.history.state?.idx > 0 ? navigate(-1) : navigate("/"));
 
   return (
     <header className="guide-header">
-      <button className="guide-back-button" onClick={() => navigate(-1)}>
+      <button type="button" className="guide-back-button" onClick={goBack}>
         <ArrowLeft size={17} />
         <span>Back</span>
       </button>
@@ -16,8 +19,15 @@ function GuideHeader() {
         <h1>Installation Guide</h1>
       </div>
 
-      <button className="guide-menu-button">
-        <Menu size={19} />
+      <button
+        type="button"
+        className="guide-menu-button"
+        onClick={onToggleNav}
+        aria-label={navOpen ? "Hide guide menu" : "Show guide menu"}
+        aria-expanded={navOpen}
+        aria-controls="guide-navigation"
+      >
+        {navOpen ? <X size={19} /> : <Menu size={19} />}
       </button>
     </header>
   );

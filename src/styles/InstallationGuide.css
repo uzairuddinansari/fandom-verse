@@ -608,3 +608,56 @@
     font-size: 13px;
   }
 }
+
+/* ---------- Guide menu: collapsible sidebar (desktop) / drawer (phones) ---------- */
+.guide-progress-track span {
+  transition: width 0.25s ease;
+}
+
+.installation-layout {
+  transition: grid-template-columns 0.35s ease;
+}
+
+.guide-nav-closed .installation-layout {
+  grid-template-columns: 0 minmax(0, 1fr);
+}
+
+.guide-nav-closed .guide-navigation {
+  visibility: hidden;
+  padding-inline: 0;
+  border-right: 0;
+}
+
+.guide-nav-scrim {
+  display: none;
+}
+
+@media (max-width: 760px) {
+  .guide-navigation {
+    display: block;
+    position: fixed;
+    top: 82px;
+    left: 0;
+    z-index: 90;
+    width: min(300px, 86vw);
+    height: calc(100dvh - 82px);
+    background: var(--color-background);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.18);
+    transform: translateX(-105%);
+    transition: transform 0.3s ease, visibility 0.3s;
+  }
+
+  .guide-nav-open .guide-navigation {
+    transform: none;
+  }
+
+  .guide-nav-scrim {
+    display: block;
+    position: fixed;
+    inset: 82px 0 0;
+    z-index: 80;
+    border: 0;
+    background: rgba(0, 0, 0, 0.35);
+    animation: sectionFade 0.3s ease both;
+  }
+}

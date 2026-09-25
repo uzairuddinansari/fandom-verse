@@ -69,7 +69,13 @@ export const getCurrentUser = () => {
     const session = readSession();
     const user = session && allUsers().find((entry) => entry.id === session.userId);
     // Never expose the password hash to components.
-    cachedUser = user ? (({ passwordHash, ...rest }) => rest)(user) : null;
+    if (user) {
+      const safe = { ...user };
+      delete safe.passwordHash;
+      cachedUser = safe;
+    } else {
+      cachedUser = null;
+    }
   }
   return cachedUser;
 };
@@ -124,7 +130,12 @@ export async function logIn({ email, password, remember = true }) {
   return { ok: true, user: getCurrentUser() };
 }
 
+/* Lets route guards tell "just logged out" (go home) from "never logged in" (go to login). */
+let lastLogoutAt = 0;
+export const justLoggedOut = () => Date.now() - lastLogoutAt < 3000;
+
 export function logOut() {
+  lastLogoutAt = Date.now();
   localStorage.removeItem(SESSION_KEY);
   sessionStorage.removeItem(SESSION_KEY);
   emit();
@@ -179,6 +190,12 @@ export function saveOrder(order) {
 }
 
 export const findOrder = (orderId) => getOrders().find((order) => order.id === orderId);
+
+/* Admin view: every order saved in this browser, newest first. */
+export const getAllOrders = () =>
+  allUsers()
+    .flatMap((user) => getOrders(user.id).map((order) => ({ ...order, customer: { id: user.id, name: user.name, email: user.email } })))
+    .sort((a, b) => b.placedAt.localeCompare(a.placedAt));
 
 export const initials = (name = "") =>
   name

@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import data from "../../JSON/TechwizSelection.json";
 import "../../styles/TechwizSelection.css";
+import teamPhoto from "../../assets/hero_final.png";
+import { resolveMedia } from "../../fandom/catalog";
 
 function TechwizSelection() {
   const [activeStep, setActiveStep] = useState(0);
@@ -87,7 +89,7 @@ function TechwizSelection() {
 
           <div className="tws-hero-image-frame">
             <img
-              src="/images/techwiz/team-main.png"
+              src={teamPhoto}
               alt="Techwiz Team"
             />
             <div className="tws-hero-image-fade"></div>
@@ -155,7 +157,7 @@ function TechwizSelection() {
               <div className="tws-step-image">
 
                 <img
-                  src={step.image}
+                  src={resolveMedia(step.image)}
                   alt={step.title}
                 />
 
@@ -259,7 +261,7 @@ function TechwizSelection() {
         <div className="tws-emotion-image">
 
           <img
-            src="/images/techwiz/reaction.jpg"
+            src={teamPhoto}
             alt="Team celebration"
           />
 

@@ -16,8 +16,10 @@ export default function ReleasesPage() {
     () => upcomingReleases.filter((item) => category === "all" || item.category === category),
     [category],
   );
-  const months = [...new Set(upcomingReleases.map((item) => monthKey(item.date)))];
-  const [month, setMonth] = useState(months[0]);
+  // Months come from the filtered list, so changing the category never lands on an empty month.
+  const months = [...new Set(releases.map((item) => monthKey(item.date)))];
+  const [chosenMonth, setMonth] = useState(null);
+  const month = months.includes(chosenMonth) ? chosenMonth : months[0] || new Date().toISOString().slice(0, 7);
   const monthIndex = months.indexOf(month);
 
   const [year, monthNumber] = month.split("-").map(Number);

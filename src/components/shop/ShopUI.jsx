@@ -3,7 +3,7 @@ import { Heart, Minus, Plus, ShoppingBag, Star } from "lucide-react";
 import { formatPrice } from "../../fandom/catalog";
 import { productPath, stockLabel } from "../../fandom/shop";
 import { addToCart, toggleBookmark, useBookmarks } from "../../fandom/store";
-import { initials, useAuth } from "../../fandom/auth";
+import { initials, justLoggedOut, useAuth } from "../../fandom/auth";
 import "../../styles/Shop.css";
 
 export function Stars({ rating, reviews, size = 14 }) {
@@ -90,6 +90,10 @@ export function Avatar({ user, size = 40 }) {
 export function RequireAuth({ children }) {
   const user = useAuth();
   const location = useLocation();
-  if (!user) return <Navigate to={`/account?next=${encodeURIComponent(location.pathname + location.search)}`} replace />;
+  if (!user) {
+    // After an intentional log-out, go home instead of asking to log in again.
+    if (justLoggedOut()) return <Navigate to="/" replace />;
+    return <Navigate to={`/account?next=${encodeURIComponent(location.pathname + location.search)}`} replace />;
+  }
   return children;
 }

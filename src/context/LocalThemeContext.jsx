@@ -3,6 +3,10 @@ import { defaultAppearanceSettings } from "../config/appearanceSettings";
 
 const ThemeContext = createContext(null);
 
+/* A sans-serif fallback stack, so text never drops to a serif if the web font can’t load. */
+const withFallback = (family) =>
+  `"${family}", Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif`;
+
 /* Adds a Google Fonts stylesheet the first time a font is selected (Inter ships in index.html). */
 const loadGoogleFont = (family) => {
   if (!family || family === "Inter" || document.querySelector(`link[data-font="${family}"]`)) return;
@@ -36,8 +40,8 @@ export function ThemeProvider({ children }) {
     root.style.setProperty("--color-muted-text", settings.theme.mutedText);
     root.style.setProperty("--color-border", settings.theme.border);
     root.style.setProperty("--color-accent", settings.theme.accent || "#e32636");
-    root.style.setProperty("--font-heading", settings.typography.headingFont);
-    root.style.setProperty("--font-body", settings.typography.bodyFont);
+    root.style.setProperty("--font-heading", withFallback(settings.typography.headingFont));
+    root.style.setProperty("--font-body", withFallback(settings.typography.bodyFont));
     root.style.setProperty("--heading-weight", settings.typography.headingWeight);
     root.style.setProperty("--body-weight", settings.typography.bodyWeight);
     localStorage.setItem("lunaAppearanceSettings", JSON.stringify(settings));

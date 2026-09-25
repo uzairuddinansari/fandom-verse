@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Bookmark, CalendarDays, Clapperboard, Compass, Film, Gamepad2, Info, LayoutDashboard, Mail, Music2, Search, Tv, BookOpen, Sparkles, Wrench } from "lucide-react";
+import { Bookmark, CalendarDays, Map as MapIcon, ShoppingBag, UserRound, UsersRound, Clapperboard, Compass, Film, Gamepad2, Info, LayoutDashboard, Mail, Music2, Search, Tv, BookOpen, Sparkles, Wrench } from "lucide-react";
 import "../../styles/Footer.css";
 import luffy from "../../assets/Footer/Monkey_D_luffey.jpeg";
 import naruto from "../../assets/Footer/Naruto_uzumaki.jpeg";
@@ -23,6 +23,7 @@ const hubs = [
 ];
 
 const discover = [
+  ["/shop", "Shop merch", "ショップ", ShoppingBag],
   ["/search", "Search", "検索", Search],
   ["/Trailers", "Trailers", "予告編", Clapperboard],
   ["/releases", "Release calendar", "カレンダー", CalendarDays],
@@ -30,7 +31,10 @@ const discover = [
 ];
 
 const help = [
+  ["/profile", "My account", "マイページ", UserRound],
   ["/about", "About us", "私たちについて", Info],
+  ["/team", "Our team", "チーム", UsersRound],
+  ["/sitemap", "Site map", "サイトマップ", MapIcon],
   ["/contact", "Contact", "お問い合わせ", Mail],
   ["/installation", "Installation guide", "インストール", Wrench],
   ["/admin", "Admin panel", "管理", LayoutDashboard],
