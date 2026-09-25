@@ -1,31 +1,36 @@
+import { Link } from "react-router-dom";
 import "../../styles/MarvelHero.css";
-import bg from "../../assets/Comics_hero/Comics_Hero.jpeg"
-import bg1 from "../../assets/Comics_hero/Comics_Hero1.jpeg"
-import bg3 from "../../assets/Comics_hero/Comics_Hero3.jpeg"
-import bg4 from "../../assets/Comics_hero/Comics_Hero4.jpeg"
-import bg2 from "../../assets/Comics_hero/Comics_Hero2.jpeg"
+import bg from "../../assets/Comics_hero/Comics_hero.jpeg"
+import spiderMan from "../../assets/Comics_hero/Comics_hero1.jpeg"
+import tomAndJerry from "../../assets/Comics_hero/Comics_hero2.jpeg"
+import batman from "../../assets/Movie_Article_img/the-batman.png"
+import ironMan from "../../assets/Movie_Article_img/avengers-endgame.png"
 import bg_main from "../../assets/Comics_hero/Comics_main.gif"
 
 const comicCards = [
   {
     title: "SPIDER-MAN",
     category: "WEB SLINGER",
-    image: bg1,
+    image: spiderMan,
+    link: "/detail/comics/character/spider-man",
   },
   {
-    title: "AVENGERS",
-    category: "EARTH'S HEROES",
-    image: bg2,
+    title: "BATMAN",
+    category: "DARK KNIGHT",
+    image: batman,
+    link: "/detail/comics/character/batman",
   },
   {
     title: "IRON MAN",
-    category: "MARVEL HERO",
-    image: bg3,
+    category: "ARMORED AVENGER",
+    image: ironMan,
+    link: "/detail/comics/character/iron-man",
   },
   {
-    title: "CAPTAIN AMERICA",
-    category: "SUPER SOLDIER",
-    image: bg4,
+    title: "TOM & JERRY",
+    category: "CLASSIC COMICS",
+    image: tomAndJerry,
+    link: "/detail/comics/character/tom-jerry",
   },
 ];
 
@@ -37,6 +42,7 @@ export default function Comecs_Hero() {
       <div className="marvel-background">
         <img
           src={bg}
+          alt=""
           className="background-image"
         />
 
@@ -54,7 +60,8 @@ export default function Comecs_Hero() {
         <div className="comic-cards">
 
           {comicCards.map((comic, index) => (
-            <article
+            <Link
+              to={comic.link}
               className={`comic-card comic-card-${index + 1}`}
               key={comic.title}
             >
@@ -84,7 +91,7 @@ export default function Comecs_Hero() {
                 </span>
               </div>
 
-            </article>
+            </Link>
           ))}
 
         </div>

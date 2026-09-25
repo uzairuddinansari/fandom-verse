@@ -60,6 +60,21 @@
     font-size: 14px;
 }
 
+.nav_search input {
+    min-width: 0;
+    flex: 1;
+    border: 0;
+    outline: 0;
+    color: var(--color-text);
+    background: transparent;
+    font-family: var(--font-body);
+    font-size: 13px;
+}
+
+.nav_search.search_open {
+    min-width: 280px;
+}
+
 .nav_search button {
     width: 34px;
     height: 34px;

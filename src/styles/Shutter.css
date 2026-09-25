@@ -522,3 +522,20 @@
     display: none;
   }
 }
+
+.shutter_hubs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  max-width: 260px;
+}
+
+.shutter_hubs a {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color 0.2s ease;
+}
+
+.shutter_hubs a:hover {
+  color: #e32636;
+}

@@ -1,9 +1,11 @@
 :root {
   --color-primary: #111111;
-  --color-secondary: #f80000;
+  --color-secondary: #ffffff;
+  --color-accent: #e32636;
   --color-background: #ffffff;
   --color-text: #111111;
   --color-muted: #666666;
+  --color-muted-text: #666666;
   --color-border: #e5e5e5;
 }
 

@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import "../styles/FandomHero.css";
 import Anime from "../assets/HERO/Anime.jpeg"
 import Comics from "../assets/HERO/Comics.jpeg"
 import Games from "../assets/HERO/Games.jpeg"
 import K_pop from "../assets/HERO/K_pop.jpeg"
 import Manga from "../assets/HERO/Manga.jpeg"
+import { Link } from "react-router-dom";
 
 const AUTOPLAY_TIME = 3000;
 
@@ -21,6 +22,7 @@ const slides = [
     accent: "ANIME",
     symbol: "ア",
     image:Anime
+    ,link: "/Anime"
   },
   {
     id: 2,
@@ -35,6 +37,7 @@ const slides = [
     symbol: "遊",
     image:
       Games
+    ,link: "/Gaming"
   },
   {
     id: 3,
@@ -49,6 +52,7 @@ const slides = [
     symbol: "映",
     image:
       "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=2200&q=85"
+    ,link: "/Movies"
   },
   {
     id: 4,
@@ -63,6 +67,7 @@ const slides = [
     symbol: "視",
     image:
       "https://images.unsplash.com/photo-1593784991095-a205069470b6?auto=format&fit=crop&w=2200&q=85"
+    ,link: "/TV_Shows"
   },
   {
     id: 5,
@@ -77,6 +82,7 @@ const slides = [
     symbol: "音",
     image:
       K_pop
+    ,link: "/K_Pop"
   },
   {
     id: 6,
@@ -91,6 +97,7 @@ const slides = [
     symbol: "漫",
     image:
      Comics
+    ,link: "/Comics"
   },
   {
     id: 7,
@@ -105,6 +112,7 @@ const slides = [
     symbol: "本",
     image:
       Manga
+    ,link: "/Manga"
   }
 ];
 
@@ -135,8 +143,6 @@ function FandomHero() {
 
   useEffect(() => {
     if (paused) return;
-
-    setProgress(0);
 
     const start = performance.now();
     let frame;
@@ -239,10 +245,10 @@ function FandomHero() {
 
               <p>{slide.description}</p>
 
-              <button className="hero-button">
+              <Link to={slide.link} className="hero-button">
                 <span>{slide.button}</span>
                 <span className="button-arrow">→</span>
-              </button>
+              </Link>
             </div>
 
             <div className="slide-visual">

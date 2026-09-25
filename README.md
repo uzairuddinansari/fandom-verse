@@ -1,16 +1,70 @@
-# React + Vite
+# FandomVerse — Portal for Fandom World
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+FandomVerse is a single-page web app that brings seven fandom hubs — **Anime, Gaming, Movies, TV Shows, K-Pop, Comics and Manga** — into one place. Each hub has articles, image galleries, videos, audio, character profiles, events, merchandise and trailers.
 
-Currently, two official plugins are available:
+It is built with **React 19 + Vite**, styled with **plain CSS** (no CSS framework), and has **no backend**: all content comes from JSON files, and user data stays in the browser.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Installation (mandatory)
 
-## React Compiler
+Requirements: **Node.js 20 or newer** and npm.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+```bash
+npm install
+npm run dev
+```
 
-## Expanding the ESLint configuration
+Open the URL Vite prints (normally http://localhost:5173).
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Production build:
+
+```bash
+npm run build
+npm run preview
+```
+
+The `dist/` folder is a static site and can be hosted on any static host (Netlify, Vercel, GitHub Pages). For client-side routes, configure the host to serve `index.html` for unknown paths.
+
+## Features and where they live
+
+| SRS requirement | Implementation |
+| --- | --- |
+| Home: logo, animated heading, intro | `components/Hero.jsx` (auto-rotating slider) |
+| Category navigation | Image grid `CategoryShowcase` in `components/fandom/HomeSections.jsx`, plus the Menu |
+| Featured content (rotating) | `FeaturedShowcase` — articles, trailers and events that rotate automatically |
+| Category hubs with type / tag filters and sorting | `components/fandom/HubLayout.jsx` + `CategoryContent.jsx` |
+| Global search, filtered by category and type | `pages/SearchPage.jsx` (search bar in the nav on every page) |
+| Image galleries with lightbox | Gallery tab → `components/fandom/MediaModal.jsx` (arrows and ← → keys) |
+| Videos and audio clips | YouTube / hosted video embeds and an HTML5 audio player in the same modal |
+| Featured articles with a detail view and related content | `pages/DetailPage.jsx` |
+| Character profiles (5+ per hub) | Characters tab, filterable by franchise |
+| Events (3+ per hub) | Events tab plus a release calendar at `/releases` |
+| Trailers filtered by release status | Trailers tab in every hub plus the `/Trailers` page |
+| Merchandise and a temporary cart with totals | Merch tab → product modal → cart drawer (no checkout) |
+| AI chatbot (rule-based) | `components/fandom/Chatbot.jsx`, answers from `JSON/chatbot.json` |
+| Bookmarks, session-only notes, export | `pages/BookmarksPage.jsx` (localStorage + sessionStorage, .txt/.csv export) |
+| Contact with Google Map and GPS | `pages/ContactPage.jsx` |
+| About us | `pages/AboutPage.jsx` |
+| Visitor counter and real-time clock | Bottom-left status bar (`components/fandom/SiteTools.jsx`) |
+| Breadcrumbs | Every hub, section and detail page |
+| Dummy login / signup | `/account` (UI only) |
+
+## Data
+
+- `src/JSON/fandomCatalog.json` — galleries, videos, audio, characters, events, merchandise and trailers for every hub.
+- `src/JSON/<Category>/*.json` — the articles for each hub.
+- `src/JSON/chatbot.json` — the chatbot's FAQ answers, quick replies and recommendation rules.
+- `src/JSON/team.json` — team members and studio contact details (replace the placeholders with your own).
+
+Images are referenced by their path inside `src/assets` (for example `"Game_Article/ELDEN RING.png"`). `src/fandom/catalog.js` resolves every path to a bundled file, so adding content only means editing JSON.
+
+## Assumptions
+
+- There is no backend or database. The site never writes to its JSON files; bookmarks and the cart persist in `localStorage`, and notes are kept in `sessionStorage` only.
+- Checkout, payment and real authentication are intentionally not included.
+- The chatbot is pre-scripted and does not call any external AI service.
+- The visitor counter is simulated per browser.
+- Franchise names, artwork and trailers belong to their respective owners and are used for an educational, non-commercial project. Replace them with licensed or original media before any public or commercial use.
+
+## AI tools used
+
+AI assistants (such as Claude) helped with code suggestions, content drafting and debugging. All output was reviewed and adapted by the team.

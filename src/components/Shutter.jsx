@@ -1,32 +1,36 @@
-import { useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import "../styles/Shutter.css";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import { categories } from "../fandom/catalog";
+import animeArt from "../assets/HERO/Anime.jpeg";
+import kpopArt from "../assets/HERO/K_pop.jpeg";
+import comicsArt from "../assets/Comics_hero/Comics_hero.jpeg";
 
 const projects = [
   {
-    title: "Elm Grove Residence",
-    description: "Full interior renovation of a heritage bungalow in Melbourne. Recycled brick, limestone, and white oak joinery for a young family.",
-    location: "MELBOURNE, AUSTRALIA",
-    size: "2,800 SQ FT",
-    time: "18 WEEKS",
-    image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=2000&q=90"
+    title: "Seven Fandom Worlds",
+    description: "Explore Anime, Gaming, Movies, TV Shows, K-Pop, Comics, and Manga through one visually rich portal.",
+    location: "FANDOMVERSE",
+    size: "7 HUBS",
+    time: "ALWAYS OPEN",
+    image: animeArt
   },
   {
-    title: "Oak House",
-    description: "A warm contemporary residence built around natural materials, soft light, and timeless furniture.",
-    location: "BROOKLYN, NEW YORK",
-    size: "3,200 SQ FT",
-    time: "22 WEEKS",
-    image: "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=2000&q=90"
+    title: "Stories in Motion",
+    description: "Discover original features, trailers, galleries, audio, characters, events, and upcoming releases.",
+    location: "MEDIA ARCHIVE",
+    size: "150+ ITEMS",
+    time: "LOCAL FIRST",
+    image: kpopArt
   },
   {
-    title: "Clay Residence",
-    description: "A refined residential interior balancing raw textures with quiet, modern architectural details.",
-    location: "LOS ANGELES, USA",
-    size: "2,450 SQ FT",
-    time: "16 WEEKS",
-    image: "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=2000&q=90"
+    title: "Your Collection",
+    description: "Bookmark discoveries, attach personal notes, export your list, and build a temporary merchandise cart.",
+    location: "YOUR BROWSER",
+    size: "PRIVATE",
+    time: "SESSION READY",
+    image: comicsArt
   }
 ];
 
@@ -67,6 +71,12 @@ const Shutter = ({ open, setOpen }) => {
   const tl = useRef(null);
 
   const [active, setActive] = useState(0);
+  const { pathname } = useLocation();
+
+  // Close the menu whenever a link inside it changes the route.
+  useEffect(() => {
+    setOpen(false);
+  }, [pathname, setOpen]);
 
   const project = projects[active];
 
@@ -280,15 +290,15 @@ const Shutter = ({ open, setOpen }) => {
           <div>
             <div className="brand">
               <span className="brand_mark">///</span>
-              <span>AVÉON</span>
+              <span>FANDOMVERSE</span>
             </div>
 
             <div className="brand_subtitle">
-              INTERIOR DESIGN STUDIO — EST. 2020
+              PORTAL FOR FANDOM WORLD — EST. 2026
             </div>
           </div>
 
-          <button className="shutter_close" onClick={() => setOpen(false)}>
+          <button className="shutter_close" onClick={() => setOpen(false)} aria-label="Close menu">
             ×
           </button>
         </div>
@@ -297,28 +307,32 @@ const Shutter = ({ open, setOpen }) => {
           <nav className="shutter_links">
             <RollingLink to="/">Home</RollingLink>
             <RollingLink to="/Trailers">Trailers</RollingLink>
-            <RollingLink to="/services">Services</RollingLink>
-            <RollingLink to="/work">Work</RollingLink>
-            <RollingLink to="/journal">Journal</RollingLink>
+            <RollingLink to="/releases">Releases</RollingLink>
+            <RollingLink to="/search">Explore</RollingLink>
+            <RollingLink to="/bookmarks">Bookmarks</RollingLink>
+            <RollingLink to="/about">About</RollingLink>
             <RollingLink to="/contact">Contact</RollingLink>
-            <RollingLink to="/legal">Legal</RollingLink>
+            <RollingLink to="/account">Login / Signup</RollingLink>
           </nav>
         </div>
 
         <div className="shutter_footer">
           <div>
             <span>[ CONTACT INFO ]</span>
-            <p>hello@aveondesign.com</p>
-            <p>+1 (415) 555-0199</p>
+            <p>hello@fandomverse.example</p>
+            <p>Karachi, Pakistan</p>
           </div>
 
           <div className="visit">
             <span>[ VISIT US ]</span>
-            <p>Visit in San Francisco</p>
-            <p>Visit in Brooklyn</p>
+            <p className="shutter_hubs">
+              {categories.map((category) => (
+                <Link key={category.slug} to={category.path}>{category.name}</Link>
+              ))}
+            </p>
           </div>
 
-          <small>© 2026 AVÉON DESIGN</small>
+          <small>© 2026 FANDOMVERSE</small>
         </div>
       </div>
 
@@ -343,7 +357,7 @@ const Shutter = ({ open, setOpen }) => {
             onMouseLeave={handleMouseLeave}
           >
             <img ref={imageRef} src={project.image} alt={project.title} />
-            <img ref={nextImageRef} src="" alt="" />
+            <img ref={nextImageRef} alt="" />
 
             <div className="image_overlay" />
           </div>
@@ -357,7 +371,7 @@ const Shutter = ({ open, setOpen }) => {
               </div>
             </div>
 
-            <span>VIEW PROJECT ↗</span>
+            <span>EXPLORE THE VERSE ↗</span>
           </div>
 
         </div>

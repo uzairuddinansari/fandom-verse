@@ -2,7 +2,6 @@ import { Outlet, NavLink, useLocation } from "react-router-dom";
 import { useLayoutEffect } from "react";
 import gsap from "gsap";
 import "../../styles/Trailers.css";
-import Nav from "../Nav"; 
 
 export default function Trailers() {
   const location = useLocation();
@@ -56,7 +55,6 @@ export default function Trailers() {
 
   return (
     <>
-    <Nav />
     <section className="trailers-page">
       <div className="trailers-header">
         <h1>Trailers</h1>

@@ -1,8 +1,10 @@
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import "../../styles/AnimeNews.css"
 import FooterData from "../../JSON/AnimeNews.json";
+import { resolveMedia } from "../../fandom/catalog";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -198,17 +200,10 @@ const AnimeNews = () => {
           </div>
 
 
-          <a
-            href="#"
-            className="anime-view-all"
-          >
+          <Link to="/search?type=article" className="anime-view-all">
             View All
-
-            <span>
-              →
-            </span>
-
-          </a>
+            <span>→</span>
+          </Link>
 
         </div>
 
@@ -242,7 +237,8 @@ const AnimeNews = () => {
                 <div className="image-wrapper">
 
                   <img
-                    src={card.image}
+                    src={resolveMedia(card.image)}
+                    loading="lazy"
                     alt={card.title}
                     className="anime-image"
                   />
@@ -296,9 +292,9 @@ const AnimeNews = () => {
                       {card.readTime}
                     </span>
 
-                    <button>
+                    <Link to={card.link} aria-label={`Read more about ${card.title}`}>
                       →
-                    </button>
+                    </Link>
 
                   </div>
 

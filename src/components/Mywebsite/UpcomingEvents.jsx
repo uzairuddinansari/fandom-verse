@@ -1,10 +1,23 @@
-import React, { useLayoutEffect, useRef } from "react";
+import { useLayoutEffect, useRef } from "react";
+import { Link } from "react-router-dom";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import events from "../../JSON/upcomingEvents.json";
+import { detailPath, formatDate, upcomingReleases } from "../../fandom/catalog";
 import "../../styles/UpcomingEvents.css";
 
 gsap.registerPlugin(ScrollTrigger);
+
+// The three soonest upcoming events, each from a different hub.
+const events = upcomingReleases
+  .filter((item) => item.type === "event")
+  .filter((item, index, list) => list.findIndex((other) => other.category === item.category) === index)
+  .slice(0, 3)
+  .map((item) => ({
+    ...item,
+    day: item.date.slice(8, 10),
+    month: formatDate(item.date, { month: "short" }).toUpperCase(),
+    eventDate: formatDate(item.date, { weekday: "short", day: "numeric", month: "long", year: "numeric" }),
+  }));
 
 const UpcomingEvents = () => {
   const sectionRef = useRef(null);
@@ -115,30 +128,30 @@ const UpcomingEvents = () => {
           Upcoming Events
         </h2>
 
-        <button className="view-all-btn">
+        <Link className="view-all-btn" to="/search?type=event">
           View All
-        </button>
+        </Link>
       </div>
 
       <div className="upcoming-cards">
         {events.slice(0, 3).map((event, index) => (
           <div
             className="event-card"
-            key={event.id}
+            key={event.uid}
             ref={(el) => (cardsRef.current[index] = el)}
             onMouseMove={(e) => handleMouseMove(e, e.currentTarget)}
             onMouseLeave={(e) => handleMouseLeave(e.currentTarget)}
           >
             <div className="event-image">
-              <img src={event.image} alt={event.title} />
+              <img src={event.image} alt={event.title} loading="lazy" />
               <span className="event-category">
-                {event.category}
+                {event.categoryName}
               </span>
             </div>
 
             <div className="event-info">
               <div className="event-date">
-                <span>{event.date}</span>
+                <span>{event.day}</span>
                 <small>{event.month}</small>
               </div>
 
@@ -156,10 +169,9 @@ const UpcomingEvents = () => {
 
             <div className="event-footer">
               <span>{event.eventDate}</span>
-
-              <button className="event-arrow">
+              <Link className="event-arrow" to={detailPath(event)} aria-label={`Open ${event.title}`}>
                 →
-              </button>
+              </Link>
             </div>
           </div>
         ))}

@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { addCollectionData , DeletCard ,Clear} from "../Redux/feature/CollectionSlice";
 import { useEffect} from "react";
+import "../styles/GallerySearch.css";
 
 const Collection = () => {
 
@@ -63,7 +64,7 @@ const Collection = () => {
                 <img
                   src={SaveItem.src}
                   alt={SaveItem.title}
-                  className="w-full h-60 object-cover rounded-lg"
+                  className="gallery-media"
                 />
 
                 <div className="des">{SaveItem.title}</div>
@@ -83,7 +84,7 @@ const Collection = () => {
               src={SaveItem.src}
               poster={SaveItem.thumbnail}
               controls
-              className="w-full h-60 object-cover rounded-lg"
+              className="gallery-media"
             />
              <button
                   className="remove"

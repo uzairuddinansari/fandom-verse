@@ -93,7 +93,7 @@ function AppearanceCustomizer() {
 
             <button
               type="button"
-              className="bg-amber-400 p-px100 active:scale-95"
+              className="upload-font-button"
               onClick={() => fontInputRef.current?.click()}
             >
               Upload Font

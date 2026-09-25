@@ -3,6 +3,7 @@ import {fetchUnsplashData,fetchPixelsData} from "../API/GalleryAPI";
 import {setLoading,seterror,setResults,clearRresult} from "../Redux/feature/SearchSlide";
 import { useEffect, useState } from "react";
 import "../styles/Result.css"
+import "../styles/GallerySearch.css"
 const ResultGrid = () => {
   const [data, setdata] = useState([]);
   const dispatch = useDispatch();
@@ -71,8 +72,8 @@ const ResultGrid = () => {
   // Loader
   if (loading) {
     return (
-      <div className="flex min-h-[300px] items-center justify-center">
-        <div className="h-12 w-12 animate-spin rounded-full border-4 border-gray-300 border-t-blue-600"></div>
+      <div className="gallery-status">
+        <div className="gallery-spinner"></div>
       </div>
     );
   }
@@ -81,15 +82,15 @@ const ResultGrid = () => {
   // Error
   if (error) {
     return (
-      <div className="flex min-h-[300px] items-center justify-center">
-        <p className="rounded-lg bg-red-100 px-5 py-3 text-red-600">
+      <div className="gallery-status">
+        <p className="gallery-error">
           Something went wrong: {error}
         </p>
       </div>
     );
   }
   
-  const ClearNow = (state) =>{
+  const ClearNow = () =>{
     setdata([]);
     dispatch(clearRresult())
   }
@@ -105,7 +106,7 @@ const ResultGrid = () => {
       </button>
       
       </div>
-    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 p-5">
+    <div className="gallery-results">
      
       {data.map((item) => (
         <div key={item.id}>
@@ -114,7 +115,7 @@ const ResultGrid = () => {
               <img
                 src={item.src}
                 alt={item.title}
-                className="w-full h-60 object-cover rounded-lg"
+                className="gallery-media"
               />
 
               <div className="des">
@@ -123,7 +124,7 @@ const ResultGrid = () => {
 
               <button
                 onClick={() => SaveNow(item)}
-                className="bg-amber-700"
+                className="gallery-save"
               >
                 Save Now
               </button>
@@ -134,11 +135,11 @@ const ResultGrid = () => {
               src={item.src}
               poster={item.thumbnail}
               controls
-              className="w-full h-60 object-cover rounded-lg"
+              className="gallery-media"
             />
             <button
                 onClick={() => SaveNow(item)}
-                className="bg-amber-700"
+                className="gallery-save"
               >
                 Save Now
               </button>

@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import "../../styles/Footer.css"
 import Goko from "../../assets/Footer/Goku.png"
 const AnimeFooter = () => {
@@ -9,7 +10,7 @@ const AnimeFooter = () => {
     {
       id: 'luffy',
       name: 'Monkey D. Luffy',
-    //   img: Goko,
+      img: 'https://lh3.googleusercontent.com/d/1SDpV4N3ePJL0AiLu06UX59JEwWqxt2_l',
       fallback: 'https://lh3.googleusercontent.com/d/1SDpV4N3ePJL0AiLu06UX59JEwWqxt2_l'
     },
     {
@@ -50,13 +51,13 @@ const AnimeFooter = () => {
       </label>
 
       <span className="footer-toggle-text">
-        EN / JP Subbed
+        EN / JP Labels
       </span>
     </div>
 
     <div className="footer-server">
       <span className="server-dot"></span>
-      <span>Servers Operational</span>
+      <span>Local Content Ready</span>
     </div>
   </div>
 
@@ -65,15 +66,15 @@ const AnimeFooter = () => {
     <div className="footer-brand">
       <div className="footer-logo">
         <span className="footer-logo-text">
-          9ix<span>Anime</span>
+          Fandom<span>Verse</span>
         </span>
       </div>
 
       <p className="footer-description">
         Copyright &copy; 2026{" "}
-        <strong>9ixAnime</strong>. All Rights Reserved.
+        <strong>FandomVerse</strong>. All Rights Reserved.
         <br />
-        Your ultimate hub for streaming & entertainment content.
+        One original portal for seven vibrant fandom communities.
       </p>
 
       <div className="footer-socials">
@@ -81,8 +82,8 @@ const AnimeFooter = () => {
       </div>
 
       <p className="footer-disclaimer">
-        Disclaimer: This site does not store any files on its server.
-        All contents are provided by non-affiliated third parties.
+        Original educational content. Bookmarks and cart data stay
+        in your browser; no purchases are processed.
       </p>
     </div>
 
@@ -93,30 +94,30 @@ const AnimeFooter = () => {
 
         <ul className="footer-links">
           <li>
-            <a href="#">
+            <Link to="/Movies">
               <svg className="movie-icon" viewBox="0 0 24 24">
                 {/* existing path */}
               </svg>
               Movies
-            </a>
+            </Link>
           </li>
 
           <li>
-            <a href="#">
+            <Link to="/Gaming">
               <svg className="game-icon" viewBox="0 0 24 24">
                 {/* existing path */}
               </svg>
               Games
-            </a>
+            </Link>
           </li>
 
           <li>
-            <a href="#">
+            <Link to="/K_Pop">
               <svg className="kpop-icon" viewBox="0 0 24 24">
                 {/* existing path */}
               </svg>
               K-Pop
-            </a>
+            </Link>
           </li>
         </ul>
       </div>
@@ -125,9 +126,9 @@ const AnimeFooter = () => {
         <h4 className="footer-heading help">Help</h4>
 
         <ul className="footer-links">
-          <li><a href="#">Contact</a></li>
-          <li><a href="#">FAQ</a></li>
-          <li><a href="#">9ixAnime App</a></li>
+          <li><Link to="/contact">Contact</Link></li>
+          <li><Link to="/about">About</Link></li>
+          <li><Link to="/bookmarks">Bookmarks</Link></li>
         </ul>
       </div>
 

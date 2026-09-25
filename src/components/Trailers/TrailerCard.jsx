@@ -1,22 +1,29 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
+import { categories } from "../../fandom/catalog";
+import { toggleBookmark, useBookmarks } from "../../fandom/store";
 
-const STORAGE_KEY = "fandomverse_saved_articles";
+const slugify = (text) => text.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+
+/* Shape a trailers.json entry like a catalog item so it can live in the shared bookmarks. */
+const asBookmark = (trailer) => {
+  const category = categories.find((entry) => entry.name.toLowerCase() === trailer.category.toLowerCase());
+  return {
+    uid: `trailers:trailer:${slugify(trailer.title)}`,
+    id: slugify(trailer.title),
+    type: "trailer",
+    title: `${trailer.title} — ${trailer.subtitle}`,
+    description: trailer.description,
+    image: trailer.poster,
+    category: category?.slug || "trailers",
+    categoryName: category?.name || trailer.category,
+    categoryPath: category ? `${category.path}` : "/Trailers",
+  };
+};
 
 export default function TrailerCard({ trailer, type = "Trailer" }) {
   const [isOpen, setIsOpen] = useState(false);
-  const [saved, setSaved] = useState(false);
-
-  useEffect(() => {
-    const stored = JSON.parse(
-      localStorage.getItem(STORAGE_KEY) || "[]"
-    );
-
-    const trailerId = trailer.title;
-
-    setSaved(
-      stored.some((item) => item.id === trailerId)
-    );
-  }, [trailer.title]);
+  const bookmark = asBookmark(trailer);
+  const saved = useBookmarks().some((entry) => entry.uid === bookmark.uid);
 
   useEffect(() => {
     document.body.style.overflow = isOpen ? "hidden" : "";
@@ -26,45 +33,7 @@ export default function TrailerCard({ trailer, type = "Trailer" }) {
     };
   }, [isOpen]);
 
-  const handleSaveTrailer = () => {
-    const stored = JSON.parse(
-      localStorage.getItem(STORAGE_KEY) || "[]"
-    );
-
-    const trailerId = trailer.title;
-
-    const alreadySaved = stored.some(
-      (item) => item.id === trailerId
-    );
-
-    let updated;
-
-    if (alreadySaved) {
-      updated = stored.filter(
-        (item) => item.id !== trailerId
-      );
-
-      setSaved(false);
-    } else {
-      updated = [
-        ...stored,
-        {
-          ...trailer,
-          id: trailerId,
-          type: "trailer",
-          savedAt: new Date().toISOString(),
-          savedName: trailer.title
-        }
-      ];
-
-      setSaved(true);
-    }
-
-    localStorage.setItem(
-      STORAGE_KEY,
-      JSON.stringify(updated)
-    );
-  };
+  const handleSaveTrailer = () => toggleBookmark(bookmark);
 
   return (
     <>
@@ -73,6 +42,7 @@ export default function TrailerCard({ trailer, type = "Trailer" }) {
           <img
             src={trailer.poster}
             alt={trailer.title}
+            loading="lazy"
           />
 
           <span className="trailer-type">
@@ -92,6 +62,8 @@ export default function TrailerCard({ trailer, type = "Trailer" }) {
               saved ? "saved" : ""
             }`}
             onClick={handleSaveTrailer}
+            aria-pressed={saved}
+            aria-label={saved ? `Remove ${trailer.title} from bookmarks` : `Bookmark ${trailer.title}`}
           >
             {saved ? "Saved" : "☆"}
           </button>

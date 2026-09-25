@@ -5,6 +5,7 @@ export const defaultAppearanceSettings = {
     background: "#ffffff",
     text: "#111111",
     mutedText: "#666666",
+    accent: "#e32636",
     border: "#e5e5e5"
   },
   typography: {
