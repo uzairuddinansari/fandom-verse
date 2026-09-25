@@ -1,0 +1,62 @@
+[
+  {
+    "id": 1,
+    "title": "The Iron Throne",
+    "tvShowName": "Game of Thrones"
+  },
+  {
+    "id": 2,
+    "title": "The Upside Down",
+    "tvShowName": "Stranger Things"
+  },
+  {
+    "id": 3,
+    "title": "The Heist",
+    "tvShowName": "Money Heist"
+  },
+  {
+    "id": 4,
+    "title": "The Chemistry Teacher",
+    "tvShowName": "Breaking Bad"
+  },
+  {
+    "id": 5,
+    "title": "The Last of Us",
+    "tvShowName": "The Last of Us"
+  },
+  {
+    "id": 6,
+    "title": "The Walking Dead",
+    "tvShowName": "The Walking Dead"
+  },
+  {
+    "id": 7,
+    "title": "The Witcher",
+    "tvShowName": "The Witcher"
+  },
+  {
+    "id": 8,
+    "title": "The Crown",
+    "tvShowName": "The Crown"
+  },
+  {
+    "id": 9,
+    "title": "The Dark World",
+    "tvShowName": "Wednesday"
+  },
+  {
+    "id": 10,
+    "title": "The Mandalorian",
+    "tvShowName": "The Mandalorian"
+  },
+  {
+    "id": 11,
+    "title": "The Boys",
+    "tvShowName": "The Boys"
+  },
+  {
+    "id": 12,
+    "title": "The Final Game",
+    "tvShowName": "Squid Game"
+  }
+]

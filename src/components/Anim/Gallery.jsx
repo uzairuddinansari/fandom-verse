@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import galleryData from "../../JSON/Anime/animeGellery.json";
 import galleryImages from "../../JSON/Anime/AnimeGellery";
 import "../../styles/GalleryGrid.css";

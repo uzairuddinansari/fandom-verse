@@ -1,92 +1,82 @@
-{
-  "manga": [
-    {
-      "id": 1,
-      "title": "One Piece",
-      "category": "Manga",
-      "genre": "Action, Adventure, Fantasy, Comedy",
-      "releaseDate": "1997-07-22",
-      "rating": "9.5/10",
-      "volumes": 100,
-      "articleTitle": "Inside the World of One Piece",
-      "description": "Explore the Grand Line, legendary pirates, Devil Fruits, powerful characters, mysterious islands, and story details fans may have missed."
-    },
-    {
-      "id": 2,
-      "title": "Naruto",
-      "category": "Manga",
-      "genre": "Action, Adventure, Martial Arts, Fantasy",
-      "releaseDate": "1999-09-21",
-      "rating": "9.2/10",
-      "volumes": 72,
-      "articleTitle": "Naruto: Things You May Have Missed",
-      "description": "Take a closer look at the shinobi world, Naruto's journey, important characters, hidden techniques, clans, and major story events."
-    },
-    {
-      "id": 3,
-      "title": "Dragon Ball",
-      "category": "Manga",
-      "genre": "Action, Adventure, Martial Arts, Fantasy",
-      "releaseDate": "1984-12-03",
-      "rating": "9.3/10",
-      "volumes": 42,
-      "articleTitle": "Dragon Ball: Hidden Details You Missed",
-      "description": "Explore Goku's journey, powerful warriors, Dragon Balls, famous battles, transformations, and important details throughout the manga."
-    },
-    {
-      "id": 4,
-      "title": "Attack on Titan",
-      "category": "Manga",
-      "genre": "Action, Dark Fantasy, Drama, Mystery",
-      "releaseDate": "2009-09-09",
-      "rating": "9.4/10",
-      "volumes": 34,
-      "articleTitle": "Attack on Titan Explained for New Readers",
-      "description": "Discover the world beyond the walls, Titans, important characters, hidden mysteries, political conflicts, and major story revelations."
-    },
-    {
-      "id": 5,
-      "title": "Demon Slayer",
-      "category": "Manga",
-      "genre": "Action, Dark Fantasy, Adventure",
-      "releaseDate": "2016-02-15",
-      "rating": "9.0/10",
-      "volumes": 23,
-      "articleTitle": "Demon Slayer: Details You May Have Missed",
-      "description": "Explore Tanjiro's journey, Demon Slayer Corps, breathing techniques, demons, Hashira, and important story details."
-    },
-    {
-      "id": 6,
-      "title": "My Hero Academia",
-      "category": "Manga",
-      "genre": "Superhero, Action, Adventure, Fantasy",
-      "releaseDate": "2014-07-07",
-      "rating": "8.8/10",
-      "volumes": 42,
-      "articleTitle": "My Hero Academia: Things You Missed",
-      "description": "Take a closer look at heroes, Quirks, U.A. High School, major characters, villains, battles, and important story moments."
-    },
-    {
-      "id": 7,
-      "title": "Jujutsu Kaisen",
-      "category": "Manga",
-      "genre": "Action, Supernatural, Dark Fantasy",
-      "releaseDate": "2018-03-05",
-      "rating": "9.1/10",
-      "volumes": 30,
-      "articleTitle": "Jujutsu Kaisen: Hidden Details",
-      "description": "Explore cursed energy, sorcerers, powerful characters, mysterious curses, major battles, and hidden details throughout the manga."
-    },
-    {
-      "id": 8,
-      "title": "Death Note",
-      "category": "Manga",
-      "genre": "Psychological Thriller, Mystery, Supernatural",
-      "releaseDate": "2003-12-01",
-      "rating": "9.3/10",
-      "volumes": 12,
-      "articleTitle": "Death Note: Things You May Have Missed",
-      "description": "Explore Light Yagami, the mysterious Death Note, Ryuk, L, psychological battles, hidden clues, and important story details."
-    }
-  ]
-}
+[
+  {
+    "id": "manga001",
+    "title": "One Piece",
+    "category": "Manga",
+    "genre": "Action, Adventure, Fantasy",
+    "releaseDate": "1997-07-22",
+    "rating": "9.21/10",
+    "articleTitle": "Inside the World of One Piece",
+    "description": "A closer look at Luffy, the Straw Hat crew, their adventures, and the legendary search for the One Piece treasure."
+  },
+  {
+    "id": "manga002",
+    "title": "Naruto",
+    "category": "Manga",
+    "genre": "Action, Adventure, Fantasy",
+    "releaseDate": "1999-09-21",
+    "rating": "8.07/10",
+    "articleTitle": "Naruto: The Journey of a Young Ninja",
+    "description": "Explore Naruto Uzumaki's journey from a lonely young ninja to one of the most important figures in his world."
+  },
+  {
+    "id": "manga003",
+    "title": "Attack on Titan",
+    "category": "Manga",
+    "genre": "Action, Dark Fantasy, Drama",
+    "releaseDate": "2009-09-09",
+    "rating": "8.40/10",
+    "articleTitle": "Attack on Titan: Beyond the Walls",
+    "description": "Discover the story of humanity, the mysterious Titans, and the secrets hidden beyond the walls."
+  },
+  {
+    "id": "manga004",
+    "title": "Demon Slayer: Kimetsu no Yaiba",
+    "category": "Manga",
+    "genre": "Action, Fantasy, Historical",
+    "releaseDate": "2016-02-15",
+    "rating": "8.10/10",
+    "articleTitle": "Demon Slayer: Tanjiro's Journey",
+    "description": "Follow Tanjiro as he begins a dangerous journey to protect his sister and fight demons."
+  },
+  {
+    "id": "manga005",
+    "title": "Jujutsu Kaisen",
+    "category": "Manga",
+    "genre": "Action, Supernatural, Dark Fantasy",
+    "releaseDate": "2018-03-05",
+    "rating": "8.60/10",
+    "articleTitle": "Jujutsu Kaisen: Curses and Sorcerers",
+    "description": "A closer look at Yuji Itadori and the world of cursed spirits, sorcerers, and supernatural battles."
+  },
+  {
+    "id": "manga006",
+    "title": "My Hero Academia",
+    "category": "Manga",
+    "genre": "Action, Superhero, School",
+    "releaseDate": "2014-07-07",
+    "rating": "8.00/10",
+    "articleTitle": "My Hero Academia: The World of Heroes",
+    "description": "Explore the world where heroes are everywhere and follow Izuku Midoriya's dream of becoming a professional hero."
+  },
+  {
+    "id": "manga007",
+    "title": "Death Note",
+    "category": "Manga",
+    "genre": "Mystery, Psychological, Supernatural",
+    "releaseDate": "2003-12-01",
+    "rating": "8.60/10",
+    "articleTitle": "Death Note: A Battle of Minds",
+    "description": "Explore the psychological battle between Light Yagami and the investigators trying to uncover his secret."
+  },
+  {
+    "id": "manga008",
+    "title": "Tokyo Ghoul",
+    "category": "Manga",
+    "genre": "Dark Fantasy, Action, Horror",
+    "releaseDate": "2011-09-08",
+    "rating": "8.50/10",
+    "articleTitle": "Tokyo Ghoul: A World of Humans and Ghouls",
+    "description": "Discover Kaneki's struggle as he is pulled between the human world and the mysterious world of ghouls."
+  }
+]

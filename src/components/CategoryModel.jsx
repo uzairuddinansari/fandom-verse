@@ -1,18 +1,24 @@
-
 import { Canvas } from "@react-three/fiber";
 import { Environment, useGLTF } from "@react-three/drei";
 
-import robotModel from "../model/robot.glb";
+import animeModel from "../model/Anim.glb";
+import gamingModel from "../model/gaming.glb";
+import moviesModel from "../model/movies.glb";
+import tvShowsModel from "../model/tvshows.glb";
+import kpopModel from "../model/kpop.glb";
+import comicsModel from "../model/comics.glb";
+import mangaModel from "../model/manga.glb";
+
 import "../styles/Category.css";
 
 const categories = [
-  { name: "Anime", model: robotModel, link: "/Anime" },
-  { name: "Gaming", model: robotModel, link: "/gaming" },
-  { name: "Movies", model: robotModel, link: "/movies" },
-  { name: "TV_Shows", model: robotModel, link: "/TV_Shows" },
-  { name: "K_Pop", model: robotModel, link: "/K_Pop" },
-  { name: "Comics", model: robotModel, link: "/comics" },
-  { name: "Manga", model: robotModel, link: "/Manga" },
+  { name: "Anime", model: animeModel, link: "/Anime" },
+  { name: "Gaming", model: gamingModel, link: "/gaming" },
+  { name: "Movies", model: moviesModel, link: "/movies" },
+  { name: "TV_Shows", model: tvShowsModel, link: "/TV_Shows" },
+  { name: "K_Pop", model: kpopModel, link: "/K_Pop" },
+  { name: "Comics", model: comicsModel, link: "/comics" },
+  { name: "Manga", model: mangaModel, link: "/Manga" },
 ];
 
 function CategoryModel({ src }) {
@@ -76,4 +82,10 @@ export default function Category() {
   );
 }
 
-useGLTF.preload(robotModel);
+useGLTF.preload(animeModel);
+useGLTF.preload(gamingModel);
+useGLTF.preload(moviesModel);
+useGLTF.preload(tvShowsModel);
+useGLTF.preload(kpopModel);
+useGLTF.preload(comicsModel);
+useGLTF.preload(mangaModel);

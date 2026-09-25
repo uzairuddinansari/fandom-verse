@@ -1,21 +1,23 @@
-// import batmanImg from "../../assets/Comics_Article_img/batman";
-// import spiderManImg from "../../assets/Comics_Article_img/spider-man.jpg";
-// import supermanImg from "../../assets/Comics_Article_img/superman.jpg";
-// import xMenImg from "../../assets/Comics_Article_img/x-men.jpg";
-// import justiceLeagueImg from "../../assets/Comics_Article_img/justice-league.jpg";
-// import avengersImg from "../../assets/Comics_Article_img/the-avengers.jpg";
-// import walkingDeadImg from "../../assets/Comics_Article_img/the-walking-dead.jpg";
-// import invincibleImg from "../../assets/Comics_Article_img/invincible.jpg";
+import batmanYearOneImg from "../../assets/Comics_Article_img/batman-year-one.jpg";
+import watchmenImg from "../../assets/Comics_Article_img/watchmen.jpg";
+import darkKnightReturnsImg from "../../assets/Comics_Article_img/dark-knight-returns.jpg";
+import vForVendettaImg from "../../assets/Comics_Article_img/v-for-vendetta.jpg";
+import ultimateSpiderManImg from "../../assets/Comics_Article_img/ultimate-spider-man.jpg";
+import civilWarImg from "../../assets/Comics_Article_img/civil-war.jpg";
+import sandmanImg from "../../assets/Comics_Article_img/sandman.jpg";
+import invincibleImg from "../../assets/Comics_Article_img/invincible.jpg";
 
-// const articleImages = [
-//      batmanImg,
-//      spiderManImg,
-//      supermanImg,
-//      xMenImg,
-//      justiceLeagueImg,
-//      avengersImg,
-//      walkingDeadImg,
-//      invincibleImg,
-// ];
+const galleryImages = [
+  
+     batmanYearOneImg,
+     watchmenImg,
+     darkKnightReturnsImg,
+     vForVendettaImg,
+     ultimateSpiderManImg,
+     civilWarImg,
+     sandmanImg,
+     invincibleImg,
 
-// export default articleImages;
+];
+
+export default galleryImages;

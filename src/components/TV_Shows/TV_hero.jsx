@@ -1,5 +1,5 @@
-import React from 'react';
 import '../../styles/TvShowsHeroSection.css';
+import TV1 from "../../assets/TV_shows_hero/tv_show1.jpeg"
 
 const tvShowsData = [
   {

@@ -1,0 +1,62 @@
+[
+  {
+    "id": 1,
+    "title": "The Ultimate Battle",
+    "gameName": "Grand Theft Auto V"
+  },
+  {
+    "id": 2,
+    "title": "Legends Never Die",
+    "gameName": "League of Legends"
+  },
+  {
+    "id": 3,
+    "title": "Battle Royale",
+    "gameName": "PUBG"
+  },
+  {
+    "id": 4,
+    "title": "Into the Unknown",
+    "gameName": "Minecraft"
+  },
+  {
+    "id": 5,
+    "title": "The Last Journey",
+    "gameName": "God of War"
+  },
+  {
+    "id": 6,
+    "title": "Survive the Nightmare",
+    "gameName": "Resident Evil"
+  },
+  {
+    "id": 7,
+    "title": "Champions Rise",
+    "gameName": "Valorant"
+  },
+  {
+    "id": 8,
+    "title": "The Witcher World",
+    "gameName": "The Witcher 3"
+  },
+  {
+    "id": 9,
+    "title": "A New Horizon",
+    "gameName": "Horizon Forbidden West"
+  },
+  {
+    "id": 10,
+    "title": "Speed Beyond Limits",
+    "gameName": "Need for Speed"
+  },
+  {
+    "id": 11,
+    "title": "The Ultimate Quest",
+    "gameName": "Red Dead Redemption 2"
+  },
+  {
+    "id": 12,
+    "title": "Champions of the Rift",
+    "gameName": "Fortnite"
+  }
+]
