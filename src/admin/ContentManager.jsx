@@ -5,6 +5,7 @@ import { formatDate, typeLabels } from "../fandom/catalog";
 import { clearOverride, deleteCustomItem, saveOverride } from "./adminStore";
 import useAdminCatalog from "./useAdminCatalog";
 import { EmptyState, PageHeader } from "./AdminUI";
+import { toast, useConfirm } from "../components/ui/feedback";
 
 const PAGE_SIZE = 12;
 
@@ -12,6 +13,19 @@ export default function ContentManager() {
   const { categories, items, adminData } = useAdminCatalog();
   const [params, setParams] = useSearchParams();
   const [page, setPage] = useState(0);
+  const confirm = useConfirm();
+
+  const remove = async (item) => {
+    const ok = await confirm({ tone: "danger", title: `Delete “${item.title}”?`, message: "This item was added in the admin panel. Deleting it removes it from the website for good.", confirmLabel: "Delete item" });
+    if (!ok) return;
+    deleteCustomItem(item.uid);
+    toast(`“${item.title}” was deleted.`, { type: "info", title: "Item deleted" });
+  };
+
+  const restore = (item) => {
+    clearOverride(item.uid);
+    toast(`“${item.title}” is back to its original content.`, { title: "Restored" });
+  };
   const query = params.get("q") || "";
   const hub = params.get("hub") || "all";
   const type = params.get("type") || "all";
@@ -48,8 +62,12 @@ export default function ContentManager() {
   const current = Math.min(page, pages - 1);
   const rows = filtered.slice(current * PAGE_SIZE, current * PAGE_SIZE + PAGE_SIZE);
 
-  const toggle = (item, key) =>
-    saveOverride(item.uid, { [key]: !item[key] }, `${!item[key] ? (key === "hidden" ? "Hid" : "Featured") : key === "hidden" ? "Showed" : "Unfeatured"} “${item.title}”`);
+  const toggle = (item, key) => {
+    const on = !item[key];
+    const verb = key === "hidden" ? (on ? "Hidden from the website" : "Visible on the website again") : on ? "Added to featured" : "Removed from featured";
+    saveOverride(item.uid, { [key]: on }, `${on ? (key === "hidden" ? "Hid" : "Featured") : key === "hidden" ? "Showed" : "Unfeatured"} “${item.title}”`);
+    toast(`“${item.title}”`, { title: verb, type: key === "hidden" && on ? "info" : "success", duration: 2600 });
+  };
 
   return (
     <>
@@ -134,12 +152,12 @@ export default function ContentManager() {
                           <Pencil size={16} />
                         </Link>
                         {item.custom ? (
-                          <button type="button" className="adm-icon-btn danger" onClick={() => window.confirm(`Delete “${item.title}”?`) && deleteCustomItem(item.uid)} aria-label={`Delete ${item.title}`} title="Delete">
+                          <button type="button" className="adm-icon-btn danger" onClick={() => remove(item)} aria-label={`Delete ${item.title}`} title="Delete">
                             <Trash2 size={16} />
                           </button>
                         ) : (
                           edited && (
-                            <button type="button" className="adm-icon-btn" onClick={() => clearOverride(item.uid)} aria-label={`Restore ${item.title}`} title="Restore original">
+                            <button type="button" className="adm-icon-btn" onClick={() => restore(item)} aria-label={`Restore ${item.title}`} title="Restore original">
                               <RotateCcw size={16} />
                             </button>
                           )

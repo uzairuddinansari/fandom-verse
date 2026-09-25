@@ -55,7 +55,7 @@ export default function CategoryContent({ categorySlug, section = "all" }) {
   );
 
   // Items that open in the modal can be browsed within the current filtered list.
-  const modalItems = visible.filter((item) => ["gallery", "video", "audio", "trailer", "merchandise"].includes(item.type));
+  const modalItems = visible.filter((item) => ["gallery", "video", "audio", "trailer"].includes(item.type));
   const openItem = (item) => setOpenIndex(modalItems.findIndex((entry) => entry.uid === item.uid));
 
   if (!category) return null;

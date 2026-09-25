@@ -112,12 +112,3 @@ export function EmptyState({ icon: Icon, title, children }) {
     </div>
   );
 }
-
-export function Toast({ message }) {
-  if (!message) return null;
-  return (
-    <div className="adm-toast" role="status">
-      {message}
-    </div>
-  );
-}

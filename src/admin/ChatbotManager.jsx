@@ -1,40 +1,64 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Bot, MessageSquarePlus, Pencil, Send, Trash2 } from "lucide-react";
 import { knowledge, respond } from "../fandom/chatbotEngine";
 import { deleteFaq, saveFaq, useAdminData } from "./adminStore";
 import { EmptyState, PageHeader, Panel } from "./AdminUI";
+import { FieldError, FieldHint } from "../components/ui/FormFeedback";
+import { fieldA11y, focusFirstError, rules, toast, useConfirm, validateForm } from "../components/ui/feedback";
+
+const newFaqId = () => `faq-${Date.now().toString(36)}`;
 
 const blank = { id: "", keywords: "", answer: "", linkLabel: "", linkTo: "" };
 
 export default function ChatbotManager() {
   const { faqs } = useAdminData();
   const [form, setForm] = useState(blank);
-  const [error, setError] = useState("");
+  const [submitted, setSubmitted] = useState(false);
   const [question, setQuestion] = useState("");
   const [reply, setReply] = useState(null);
+  const formRef = useRef(null);
+  const confirm = useConfirm();
 
-  const edit = (faq) =>
+  const keywords = form.keywords.split(",").map((word) => word.trim().toLowerCase()).filter(Boolean);
+  const taken = keywords.filter((word) => faqs.some((faq) => faq.id !== form.id && faq.keywords.includes(word)));
+  const found = validateForm(form, {
+    keywords: [rules.required("Add at least one keyword, e.g. “tickets”."), () => (taken.length ? `Already used by another answer: ${taken.join(", ")}.` : "")],
+    answer: [rules.required("Write what Nova should reply."), rules.minLength(5, "Make the answer at least 5 characters.")],
+    linkTo: [rules.pattern(/^\//, "Links must be site paths that start with “/”, like /Anime or /contact.")],
+    linkLabel: [(value, values) => (value.trim() && !values.linkTo.trim() ? "Add a link path for this label, or clear the label." : "")],
+  });
+  const errors = submitted ? found : {};
+
+  const set = (field) => (event) => setForm((current) => ({ ...current, [field]: event.target.value }));
+
+  const edit = (faq) => {
+    setSubmitted(false);
     setForm({ id: faq.id, keywords: faq.keywords.join(", "), answer: faq.answer, linkLabel: faq.links?.[0]?.label || "", linkTo: faq.links?.[0]?.to || "" });
+  };
+
+  const remove = async (faq) => {
+    const ok = await confirm({ tone: "danger", title: "Delete this answer?", message: `Nova will stop answering “${faq.keywords[0]}” with it.`, confirmLabel: "Delete" });
+    if (!ok) return;
+    deleteFaq(faq.id);
+    toast("Nova will fall back to the built-in answers.", { type: "info", title: "Answer deleted" });
+  };
 
   const submit = (event) => {
     event.preventDefault();
-    const keywords = form.keywords.split(",").map((word) => word.trim().toLowerCase()).filter(Boolean);
-    if (!keywords.length || form.answer.trim().length < 5) {
-      setError("Add at least one keyword and an answer.");
-      return;
-    }
-    if (form.linkTo && !form.linkTo.startsWith("/")) {
-      setError("Links must be site paths that start with “/”, for example /Anime or /contact.");
+    setSubmitted(true);
+    if (Object.keys(found).length) {
+      focusFirstError(formRef.current, found);
       return;
     }
     saveFaq({
-      id: form.id || `faq-${Date.now().toString(36)}`,
+      id: form.id || newFaqId(),
       keywords,
       answer: form.answer.trim(),
       links: form.linkTo ? [{ label: form.linkLabel || "Open page", to: form.linkTo }] : undefined,
     });
+    toast(`Nova now answers “${keywords[0]}”. Try it in the test box.`, { title: form.id ? "Answer updated" : "Answer added" });
     setForm(blank);
-    setError("");
+    setSubmitted(false);
   };
 
   return (
@@ -43,29 +67,32 @@ export default function ChatbotManager() {
 
       <div className="adm-grid adm-grid-2">
         <Panel title={form.id ? "Edit answer" : "Add an answer"}>
-          <form className="adm-form" onSubmit={submit}>
-            <label>
+          <form ref={formRef} className="adm-form" onSubmit={submit} noValidate>
+            <label htmlFor="faq-keywords">
               <span>Keywords that trigger it (comma separated)</span>
-              <input value={form.keywords} onChange={(event) => setForm({ ...form, keywords: event.target.value })} placeholder="tickets, entry fee, price of events" />
+              <input name="keywords" value={form.keywords} onChange={set("keywords")} placeholder="tickets, entry fee, price of events" {...fieldA11y("faq-keywords", errors.keywords, true)} />
+              {errors.keywords ? <FieldError id="faq-keywords" message={errors.keywords} /> : <FieldHint id="faq-keywords">Nova replies when a visitor’s message contains any of these.</FieldHint>}
             </label>
-            <label>
+            <label htmlFor="faq-answer">
               <span>Nova’s answer</span>
-              <textarea rows={4} value={form.answer} onChange={(event) => setForm({ ...form, answer: event.target.value })} placeholder="Most FandomVerse meetups are free to attend…" />
+              <textarea name="answer" rows={4} value={form.answer} onChange={set("answer")} placeholder="Most FandomVerse meetups are free to attend…" {...fieldA11y("faq-answer", errors.answer)} />
+              <FieldError id="faq-answer" message={errors.answer} />
             </label>
             <div className="adm-form-grid">
-              <label>
+              <label htmlFor="faq-linkLabel">
                 <span>Link label (optional)</span>
-                <input value={form.linkLabel} onChange={(event) => setForm({ ...form, linkLabel: event.target.value })} placeholder="See events" />
+                <input name="linkLabel" value={form.linkLabel} onChange={set("linkLabel")} placeholder="See events" {...fieldA11y("faq-linkLabel", errors.linkLabel)} />
+                <FieldError id="faq-linkLabel" message={errors.linkLabel} />
               </label>
-              <label>
+              <label htmlFor="faq-linkTo">
                 <span>Link path (optional)</span>
-                <input value={form.linkTo} onChange={(event) => setForm({ ...form, linkTo: event.target.value })} placeholder="/search?type=event" />
+                <input name="linkTo" value={form.linkTo} onChange={set("linkTo")} placeholder="/search?type=event" {...fieldA11y("faq-linkTo", errors.linkTo)} />
+                <FieldError id="faq-linkTo" message={errors.linkTo} />
               </label>
             </div>
-            {error && <p className="adm-error">{error}</p>}
             <div className="adm-actions">
               <button type="submit" className="adm-btn adm-btn-primary"><MessageSquarePlus size={16} /> {form.id ? "Save answer" : "Add answer"}</button>
-              {form.id && <button type="button" className="adm-btn adm-btn-ghost" onClick={() => setForm(blank)}>Cancel</button>}
+              {form.id && <button type="button" className="adm-btn adm-btn-ghost" onClick={() => { setForm(blank); setSubmitted(false); }}>Cancel</button>}
             </div>
           </form>
         </Panel>
@@ -106,7 +133,7 @@ export default function ChatbotManager() {
                 </div>
                 <div className="adm-row-actions">
                   <button type="button" className="adm-icon-btn" onClick={() => edit(faq)} aria-label="Edit answer"><Pencil size={16} /></button>
-                  <button type="button" className="adm-icon-btn danger" onClick={() => deleteFaq(faq.id)} aria-label="Delete answer"><Trash2 size={16} /></button>
+                  <button type="button" className="adm-icon-btn danger" onClick={() => remove(faq)} aria-label="Delete answer"><Trash2 size={16} /></button>
                 </div>
               </li>
             ))}

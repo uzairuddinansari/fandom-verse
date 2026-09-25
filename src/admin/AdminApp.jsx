@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, Navigate, NavLink, Outlet, Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import {
   BarChart3,
@@ -23,6 +23,8 @@ import AnalyticsPage from "./AnalyticsPage";
 import ChatbotManager from "./ChatbotManager";
 import AppearancePage from "./AppearancePage";
 import SettingsPage from "./SettingsPage";
+import { FieldError, FormAlert } from "../components/ui/FormFeedback";
+import { fieldA11y, focusFirstError, rules, toast, validateForm } from "../components/ui/feedback";
 import "../styles/Admin.css";
 
 const menu = [
@@ -38,15 +40,37 @@ const menu = [
 function AdminLogin() {
   const navigate = useNavigate();
   const location = useLocation();
-  const [error, setError] = useState("");
+  const [values, setValues] = useState({ username: "", password: "" });
+  const [touched, setTouched] = useState({});
+  const [submitted, setSubmitted] = useState(false);
+  const [failed, setFailed] = useState(0);
+  const formRef = useRef(null);
 
   if (isAdminSignedIn()) return <Navigate to={location.state?.from || "/admin"} replace />;
 
+  const errors = validateForm(values, {
+    username: [rules.required("Enter your admin username.")],
+    password: [rules.required("Enter your password.")],
+  });
+  const visible = Object.fromEntries(Object.entries(errors).filter(([field]) => submitted || touched[field]));
+  const update = (field) => (event) => setValues((current) => ({ ...current, [field]: event.target.value }));
+  const blur = (field) => () => setTouched((current) => ({ ...current, [field]: true }));
+
   const submit = (event) => {
     event.preventDefault();
-    const form = new FormData(event.currentTarget);
-    if (signInAdmin(form.get("username"), form.get("password"))) navigate(location.state?.from || "/admin", { replace: true });
-    else setError("Incorrect username or password.");
+    setSubmitted(true);
+    if (Object.keys(errors).length) {
+      focusFirstError(formRef.current, errors);
+      return;
+    }
+    if (signInAdmin(values.username, values.password)) {
+      toast("You’re signed in to the control centre.", { title: "Welcome back" });
+      navigate(location.state?.from || "/admin", { replace: true });
+    } else {
+      setFailed((count) => count + 1);
+      setValues((current) => ({ ...current, password: "" }));
+      formRef.current?.querySelector('[name="password"]')?.focus();
+    }
   };
 
   return (
@@ -56,16 +80,22 @@ function AdminLogin() {
         <span className="adm-eyebrow"><ShieldCheck size={14} /> Admin control centre</span>
         <h1>Sign in</h1>
         <p>Manage content, the chatbot, appearance and site analytics.</p>
-        <form onSubmit={submit} className="adm-form">
-          <label>
+        <form ref={formRef} onSubmit={submit} className={`adm-form ${failed ? "fb-shake" : ""}`} key={failed} noValidate>
+          {failed > 0 && (
+            <FormAlert type="error" title="Those details didn’t match" onClose={() => setFailed(0)}>
+              Check the username and password and try again{failed > 2 ? " — the demo credentials are shown below." : "."}
+            </FormAlert>
+          )}
+          <label htmlFor="adm-username">
             <span>Username</span>
-            <input name="username" autoComplete="username" required defaultValue="" />
+            <input name="username" autoComplete="username" value={values.username} onChange={update("username")} onBlur={blur("username")} {...fieldA11y("adm-username", visible.username)} />
+            <FieldError id="adm-username" message={visible.username} />
           </label>
-          <label>
+          <label htmlFor="adm-password">
             <span>Password</span>
-            <input name="password" type="password" autoComplete="current-password" required />
+            <input name="password" type="password" autoComplete="current-password" value={values.password} onChange={update("password")} onBlur={blur("password")} {...fieldA11y("adm-password", visible.password)} />
+            <FieldError id="adm-password" message={visible.password} />
           </label>
-          {error && <p className="adm-error" role="alert">{error}</p>}
           <button type="submit" className="adm-btn adm-btn-primary">Sign in</button>
         </form>
         <div className="adm-login-hint">
@@ -115,6 +145,7 @@ function AdminLayout() {
 
   const logout = () => {
     signOutAdmin();
+    toast("See you next time.", { type: "info", title: "Signed out" });
     navigate("/admin/login", { replace: true });
   };
 

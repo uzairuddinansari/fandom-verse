@@ -1,11 +1,13 @@
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { Link, useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { ArrowLeft, Check, ImageIcon, Save, Search, X } from "lucide-react";
 import { assetImages, baseCategories, normalizeCustomItem, resolveMedia, typeLabels } from "../fandom/catalog";
 import ContentCard from "../components/fandom/ContentCard";
 import { saveCustomItem, saveOverride } from "./adminStore";
 import useAdminCatalog from "./useAdminCatalog";
-import { PageHeader, Panel, Toast } from "./AdminUI";
+import { PageHeader, Panel } from "./AdminUI";
+import { ErrorSummary, FieldError } from "../components/ui/FormFeedback";
+import { fieldA11y, focusFirstError, toast } from "../components/ui/feedback";
 import "../styles/Fandom.css";
 
 const slugify = (text) => String(text).toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
@@ -90,7 +92,7 @@ const toDraft = (item) => ({
   image: item.image || "",
 });
 
-function ImagePicker({ value, onChange }) {
+function ImagePicker({ value, onChange, error }) {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
   const preview = resolveMedia(value) || value;
@@ -100,7 +102,7 @@ function ImagePicker({ value, onChange }) {
       <div className="adm-image-current">
         {preview ? <img src={preview} alt="Selected" /> : <span><ImageIcon size={22} /></span>}
         <div>
-          <input value={value} onChange={(event) => onChange(event.target.value)} placeholder="Pick a bundled image or paste an image URL" aria-label="Image path or URL" />
+          <input name="image" value={value} onChange={(event) => onChange(event.target.value)} placeholder="Pick a bundled image or paste an image URL" aria-label="Image path or URL" {...fieldA11y("f-image", error)} />
           <button type="button" className="adm-btn adm-btn-ghost" onClick={() => setOpen((state) => !state)}>
             <ImageIcon size={15} /> {open ? "Close library" : "Browse image library"}
           </button>
@@ -145,8 +147,8 @@ export default function ContentEditor() {
   const [draft, setDraft] = useState(() =>
     existing ? toDraft(existing) : emptyDraft(params.get("type") || "merchandise", params.get("hub") || "anime"),
   );
-  const [errors, setErrors] = useState({});
-  const [toast, setToast] = useState("");
+  const [submitted, setSubmitted] = useState(false);
+  const formRef = useRef(null);
   const [newId] = useState(() => Date.now().toString(36));
 
   const set = (key, value) => setDraft((current) => ({ ...current, [key]: value }));
@@ -189,7 +191,7 @@ export default function ContentEditor() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [draft]);
 
-  const validate = () => {
+  const computeErrors = () => {
     const next = {};
     if (!draft.title.trim()) next.title = "Add a title.";
     if (draft.description.trim().length < 10) next.description = "Write at least 10 characters.";
@@ -199,13 +201,22 @@ export default function ContentEditor() {
     });
     if (draft.type === "merchandise" && Number(draft.priceMax) && Number(draft.priceMax) < Number(draft.price)) next.priceMax = "Deluxe price should be at least the standard price.";
     if ((draft.type === "trailer" || draft.type === "video") && !youtubeId(draft.youtube) && !draft.video.trim()) next.youtube = "Add a YouTube link or a video URL.";
-    setErrors(next);
-    return Object.keys(next).length === 0;
+    if (draft.youtube.trim() && !youtubeId(draft.youtube)) next.youtube = "That doesn’t look like a YouTube link — paste the full video URL or its 11-character ID.";
+    if (draft.image.trim().startsWith("http") && !/^https:\/\/\S+$/.test(draft.image.trim())) next.image = "Image URLs must start with https://.";
+    return next;
   };
+
+  // Errors appear after the first submit and then update live as fields are fixed.
+  const errors = submitted ? computeErrors() : {};
 
   const submit = (event) => {
     event.preventDefault();
-    if (!validate()) return;
+    setSubmitted(true);
+    const found = computeErrors();
+    if (Object.keys(found).length) {
+      focusFirstError(formRef.current, found);
+      return;
+    }
     const item = buildItem();
     if (isBuiltIn) {
       const patch = {
@@ -228,8 +239,8 @@ export default function ContentEditor() {
     } else {
       saveCustomItem(item);
     }
-    setToast("Saved. Reload the website to see the change.");
-    setTimeout(() => navigate("/admin/content"), 900);
+    toast("Reload the website to see the change.", { title: existing ? "Changes saved" : `“${item.title}” published` });
+    navigate("/admin/content");
   };
 
   if (uid && !existing) {
@@ -241,7 +252,7 @@ export default function ContentEditor() {
   }
 
   const field = (key) => {
-    const common = { id: `f-${key}`, value: draft[key], onChange: (event) => set(key, event.target.value), "aria-invalid": Boolean(errors[key]) };
+    const common = { name: key, value: draft[key], onChange: (event) => set(key, event.target.value), ...fieldA11y(`f-${key}`, errors[key]) };
     let control;
     if (key === "body") control = <textarea rows={8} {...common} />;
     else if (key === "status")
@@ -258,7 +269,7 @@ export default function ContentEditor() {
       <label key={key} className={key === "body" ? "span-2" : ""} htmlFor={`f-${key}`}>
         <span>{labels[key]}{(required[draft.type] || []).includes(key) && " *"}</span>
         {control}
-        {errors[key] && <small className="adm-error">{errors[key]}</small>}
+        <FieldError id={`f-${key}`} message={errors[key]} />
       </label>
     );
   };
@@ -273,8 +284,15 @@ export default function ContentEditor() {
         <Link to="/admin/content" className="adm-btn adm-btn-ghost"><ArrowLeft size={15} /> Back</Link>
       </PageHeader>
 
-      <form className="adm-editor" onSubmit={submit} noValidate>
+      <form ref={formRef} className="adm-editor" onSubmit={submit} noValidate>
         <div className="adm-editor-main">
+          {Object.keys(errors).length > 0 && (
+            <ErrorSummary
+              errors={errors}
+              labels={{ ...labels, title: "Title", description: "Description", image: "Image" }}
+              onJump={(field) => focusFirstError(formRef.current, { [field]: true })}
+            />
+          )}
           <Panel title="Basics">
             <div className="adm-form adm-form-grid">
               <label htmlFor="f-type">
@@ -291,20 +309,20 @@ export default function ContentEditor() {
               </label>
               <label className="span-2" htmlFor="f-title">
                 <span>Title *</span>
-                <input id="f-title" value={draft.title} onChange={(event) => set("title", event.target.value)} aria-invalid={Boolean(errors.title)} />
-                {errors.title && <small className="adm-error">{errors.title}</small>}
+                <input name="title" value={draft.title} onChange={(event) => set("title", event.target.value)} {...fieldA11y("f-title", errors.title)} />
+                <FieldError id="f-title" message={errors.title} />
               </label>
               <label className="span-2" htmlFor="f-description">
                 <span>Short description *</span>
-                <textarea id="f-description" rows={3} value={draft.description} onChange={(event) => set("description", event.target.value)} aria-invalid={Boolean(errors.description)} />
-                {errors.description && <small className="adm-error">{errors.description}</small>}
+                <textarea name="description" rows={3} value={draft.description} onChange={(event) => set("description", event.target.value)} {...fieldA11y("f-description", errors.description)} />
+                <FieldError id="f-description" message={errors.description} />
               </label>
             </div>
           </Panel>
 
           <Panel title="Image *">
-            <ImagePicker value={draft.image} onChange={(value) => set("image", value)} />
-            {errors.image && <small className="adm-error">{errors.image}</small>}
+            <ImagePicker value={draft.image} onChange={(value) => set("image", value)} error={errors.image} />
+            <FieldError id="f-image" message={errors.image} />
           </Panel>
 
           {extra.length > 0 && (
@@ -336,7 +354,6 @@ export default function ContentEditor() {
           </div>
         </aside>
       </form>
-      <Toast message={toast} />
     </>
   );
 }

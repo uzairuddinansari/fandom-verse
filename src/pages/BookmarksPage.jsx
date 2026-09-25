@@ -3,9 +3,10 @@ import { Bookmark, Download, Printer, Trash2 } from "lucide-react";
 import { detailPath, formatDate, sectionPath, typeLabels } from "../fandom/catalog";
 import { clearBookmarks, setNote, toggleBookmark, useBookmarks, useNotes } from "../fandom/store";
 import Breadcrumbs from "../components/fandom/Breadcrumbs";
+import { toast, useConfirm } from "../components/ui/feedback";
 import "../styles/Fandom.css";
 
-const linkFor = (item) => (["article", "character", "event"].includes(item.type) ? detailPath(item) : sectionPath(item));
+const linkFor = (item) => (["article", "character", "event", "merchandise"].includes(item.type) ? detailPath(item) : sectionPath(item));
 
 const download = (filename, text, mime) => {
   const url = URL.createObjectURL(new Blob([text], { type: mime }));
@@ -19,6 +20,19 @@ const download = (filename, text, mime) => {
 export default function BookmarksPage() {
   const bookmarks = useBookmarks();
   const notes = useNotes();
+  const confirm = useConfirm();
+
+  const clearAll = async () => {
+    const ok = await confirm({
+      tone: "danger",
+      title: "Remove all bookmarks?",
+      message: `This deletes ${bookmarks.length === 1 ? "your saved item and its note" : `all ${bookmarks.length} saved items and their notes`} from this browser. You can’t undo this.`,
+      confirmLabel: "Remove all",
+    });
+    if (!ok) return;
+    clearBookmarks();
+    toast("Your bookmark list is now empty.", { title: "Bookmarks cleared", type: "info" });
+  };
 
   const grouped = bookmarks.reduce((groups, item) => {
     (groups[item.categoryName] ||= []).push(item);
@@ -37,6 +51,7 @@ export default function BookmarksPage() {
       lines.push("");
     });
     download("fandomverse-bookmarks.txt", lines.join("\n"), "text/plain");
+    toast(`${bookmarks.length} bookmarks saved as fandomverse-bookmarks.txt`, { title: "Export downloaded" });
   };
 
   const exportCsv = () => {
@@ -45,6 +60,7 @@ export default function BookmarksPage() {
       bookmarks.map((item) => [item.title, item.categoryName, typeLabels[item.type], `${window.location.origin}${linkFor(item)}`, notes[item.uid] || "", item.savedAt?.slice(0, 10)]),
     );
     download("fandomverse-bookmarks.csv", rows.map((row) => row.map(escape).join(",")).join("\n"), "text/csv");
+    toast(`${bookmarks.length} bookmarks saved as fandomverse-bookmarks.csv`, { title: "Export downloaded" });
   };
 
   return (
@@ -67,7 +83,7 @@ export default function BookmarksPage() {
               <button
                 type="button"
                 className="fv-button-outline danger"
-                onClick={() => window.confirm("Remove all bookmarks?") && clearBookmarks()}
+                onClick={clearAll}
               >
                 <Trash2 size={16} /> Clear all
               </button>

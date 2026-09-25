@@ -349,7 +349,9 @@ export const relatedContent = (item, limit = 4) => {
     .map(({ entry }) => entry);
 };
 
-export const detailPath = (item) => `/detail/${item.category}/${item.type}/${item.id}`;
+// Merchandise has its own product pages in the shop.
+export const detailPath = (item) =>
+  item.type === "merchandise" ? `/shop/${item.category}/${item.id}` : `/detail/${item.category}/${item.type}/${item.id}`;
 
 export const sectionPath = (item) => {
   if (item.category === "trailers") return "/Trailers";

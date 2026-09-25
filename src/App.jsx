@@ -24,6 +24,13 @@ import ContactPage from "./pages/ContactPage";
 import AboutPage from "./pages/AboutPage";
 import ReleasesPage from "./pages/ReleasesPage";
 import AccountPage from "./pages/AccountPage";
+import ShopPage from "./pages/ShopPage";
+import ProductPage from "./pages/ProductPage";
+import CartPage from "./pages/CartPage";
+import CheckoutPage from "./pages/CheckoutPage";
+import OrderPage from "./pages/OrderPage";
+import ProfilePage from "./pages/ProfilePage";
+import { RequireAuth } from "./components/shop/ShopUI";
 import { sections } from "./fandom/catalog";
 import "./styles/UXPolish.css";
 import "./styles/Fandom.css";
@@ -70,6 +77,12 @@ export default function App() {
             <Route path="/about" element={<AboutPage />} />
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/account" element={<AccountPage />} />
+            <Route path="/shop" element={<ShopPage />} />
+            <Route path="/shop/:category/:id" element={<ProductPage />} />
+            <Route path="/cart" element={<CartPage />} />
+            <Route path="/checkout" element={<RequireAuth><CheckoutPage /></RequireAuth>} />
+            <Route path="/orders/:orderId" element={<RequireAuth><OrderPage /></RequireAuth>} />
+            <Route path="/profile" element={<RequireAuth><ProfilePage /></RequireAuth>} />
             <Route path="/releases" element={<ReleasesPage />} />
             <Route path="/detail/:category/:type/:id" element={<DetailPage />} />
             <Route path="/Gellery" element={<Gellery />} />

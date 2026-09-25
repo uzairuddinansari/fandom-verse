@@ -4,6 +4,7 @@ import { ArrowUp, CalendarDays, Clock3, Minus, Plus, ShoppingBag, Trash2, Users,
 import { formatPrice } from "../../fandom/catalog";
 import { cartTotals, changeQuantity, clearCart, useCart } from "../../fandom/store";
 import Chatbot from "./Chatbot";
+import { toast, useConfirm } from "../ui/feedback";
 import { trackPageView } from "../../fandom/analytics";
 
 const TAX_RATE = 0.05;
@@ -14,11 +15,20 @@ function CartDrawer({ open, onClose }) {
   const shipping = subtotal === 0 || subtotal >= 100 ? 0 : 6;
   const tax = subtotal * TAX_RATE;
   const closeRef = useRef(null);
+  const confirm = useConfirm();
+
+  const emptyCart = async () => {
+    const ok = await confirm({ tone: "danger", title: "Empty your cart?", message: `All ${count} items will be removed from the temporary cart.`, confirmLabel: "Empty cart" });
+    if (!ok) return;
+    clearCart();
+    toast("Your cart is empty.", { type: "info", title: "Cart cleared" });
+  };
 
   useEffect(() => {
     if (!open) return undefined;
     closeRef.current?.focus();
-    const onKey = (event) => event.key === "Escape" && onClose();
+    // Let an open confirm dialog handle Escape first.
+    const onKey = (event) => event.key === "Escape" && !document.querySelector(".fb-dialog") && onClose();
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [open, onClose]);
@@ -71,7 +81,7 @@ function CartDrawer({ open, onClose }) {
             </dl>
             <footer>
               <button type="button" className="fv-button" disabled title="Checkout is not part of this demo">Checkout unavailable (demo)</button>
-              <button type="button" className="fv-button-outline danger" onClick={clearCart}><Trash2 size={15} /> Empty cart</button>
+              <button type="button" className="fv-button-outline danger" onClick={emptyCart}><Trash2 size={15} /> Empty cart</button>
             </footer>
           </>
         )}

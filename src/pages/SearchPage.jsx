@@ -57,7 +57,7 @@ export default function SearchPage() {
   };
 
   const shown = results.slice(0, limit);
-  const modalItems = shown.filter((item) => ["gallery", "video", "audio", "trailer", "merchandise"].includes(item.type));
+  const modalItems = shown.filter((item) => ["gallery", "video", "audio", "trailer"].includes(item.type));
   const suggestions = ["naruto", "batman", "trailer", "k-pop", "cosplay", "elden ring", "plushie"];
 
   return (

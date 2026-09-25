@@ -5,6 +5,7 @@ import { useBookmarks } from "../fandom/store";
 import { dailySeries, readAnalytics, resetAnalytics } from "../fandom/analytics";
 import { logActivity } from "./adminStore";
 import { BarList, ColumnChart, PageHeader, Panel, StatCard } from "./AdminUI";
+import { toast, useConfirm } from "../components/ui/feedback";
 
 const shortDay = (iso) => new Date(`${iso}T12:00:00`).toLocaleDateString("en-GB", { day: "numeric", month: "short" });
 
@@ -37,11 +38,14 @@ export default function AnalyticsPage() {
     .filter((entry) => entry.value > 0)
     .sort((a, b) => b.value - a.value);
 
-  const reset = () => {
-    if (!window.confirm("Reset all visitor statistics for this browser?")) return;
+  const confirm = useConfirm();
+  const reset = async () => {
+    const ok = await confirm({ tone: "danger", title: "Reset visitor statistics?", message: "Page views and visit counts for this browser will start again from zero.", confirmLabel: "Reset" });
+    if (!ok) return;
     resetAnalytics();
     logActivity("Reset visitor statistics");
     setVersion((value) => value + 1);
+    toast("Statistics will start collecting again as people browse.", { type: "info", title: "Analytics reset" });
   };
 
   return (

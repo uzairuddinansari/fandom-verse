@@ -3,7 +3,7 @@ import { Bookmark, CalendarDays, Expand, Headphones, MapPin, Play, ShoppingBag }
 import { detailPath, formatDate, formatPrice, typeLabels } from "../../fandom/catalog";
 import { toggleBookmark, useBookmarks } from "../../fandom/store";
 
-const opensInModal = ["gallery", "video", "audio", "trailer", "merchandise"];
+const opensInModal = ["gallery", "video", "audio", "trailer"];
 
 const actionLabel = {
   article: "Read article",
@@ -119,9 +119,9 @@ export default function ContentCard({ item, onOpen, index = 0 }) {
               <span className="fv-price">
                 {formatPrice(item.priceRange[0])} – {formatPrice(item.priceRange[1])}
               </span>
-              <button type="button" className="fv-link-button" onClick={open}>
-                View &amp; add <span aria-hidden="true">→</span>
-              </button>
+              <Link className="fv-link-button" to={detailPath(item)}>
+                View &amp; buy <span aria-hidden="true">→</span>
+              </Link>
             </>
           ) : inModal ? (
             <button type="button" className="fv-link-button" onClick={open}>

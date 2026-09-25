@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { ArrowDown, Play } from "lucide-react";
+import { ArrowDown } from "lucide-react";
 import { getCategory } from "../../fandom/catalog";
 
 const titles = {
@@ -43,9 +43,7 @@ export default function HubHero({ slug }) {
             <a className="hub-hero-primary" href="#hub-content">
               Explore {category.name} <ArrowDown size={17} />
             </a>
-            <Link className="hub-hero-secondary" to={`${category.path}/trailers`}>
-              <Play size={16} fill="currentColor" /> Watch trailers
-            </Link>
+          
           </div>
           <dl className="hub-hero-stats">
             {stats.map(([value, label]) => (

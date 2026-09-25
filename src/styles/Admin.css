@@ -1348,25 +1348,6 @@
   gap: 10px;
 }
 
-.adm-toast {
-  position: fixed;
-  right: 24px;
-  bottom: 24px;
-  z-index: 100;
-  padding: 14px 18px;
-  border-radius: 12px;
-  color: #fff;
-  background: var(--color-primary);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
-  font-size: 14px;
-  font-weight: 600;
-  animation: admToast 0.3s ease;
-}
-
-@keyframes admToast {
-  from { opacity: 0; transform: translateY(12px); }
-}
-
 /* ---------- Login ---------- */
 
 .adm-login {
@@ -1698,8 +1679,4 @@
     width: 100%;
   }
 
-  .adm-toast {
-    right: 12px;
-    left: 12px;
-  }
 }

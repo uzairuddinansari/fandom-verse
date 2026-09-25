@@ -14,7 +14,7 @@ const categoryWords = {
   manga: ["manga"],
 };
 
-export const hrefFor = (item) => (["article", "character", "event"].includes(item.type) ? detailPath(item) : sectionPath(item));
+export const hrefFor = (item) => (["article", "character", "event", "merchandise"].includes(item.type) ? detailPath(item) : sectionPath(item));
 
 const pick = (filter, limit = 3) => sortItems(allContent.filter(filter), "featured").slice(0, limit);
 

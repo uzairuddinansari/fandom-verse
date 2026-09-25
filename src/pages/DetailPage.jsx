@@ -51,7 +51,7 @@ export default function DetailPage() {
 
   const saved = bookmarks.some((entry) => entry.uid === item.uid);
   const related = relatedContent(item, 4);
-  const modalItems = related.filter((entry) => ["gallery", "video", "audio", "trailer", "merchandise"].includes(entry.type));
+  const modalItems = related.filter((entry) => ["gallery", "video", "audio", "trailer"].includes(entry.type));
   const section = sectionForType(item.type);
   const body = item.body || [item.description];
 

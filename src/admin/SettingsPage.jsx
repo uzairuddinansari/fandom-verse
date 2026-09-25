@@ -3,7 +3,8 @@ import { Database, Download, KeyRound, Trash2, Upload } from "lucide-react";
 import { clearBookmarks, clearCart } from "../fandom/store";
 import { resetAnalytics } from "../fandom/analytics";
 import { DEMO_CREDENTIALS, exportAdminData, importAdminData, logActivity, resetAdminData, useAdminData } from "./adminStore";
-import { PageHeader, Panel, Toast } from "./AdminUI";
+import { PageHeader, Panel } from "./AdminUI";
+import { toast, useConfirm } from "../components/ui/feedback";
 
 const storageUsage = () => {
   try {
@@ -19,41 +20,45 @@ const storageUsage = () => {
 export default function SettingsPage() {
   const data = useAdminData();
   const fileRef = useRef(null);
-  const [toast, setToast] = useState("");
+  const confirm = useConfirm();
   const [, refresh] = useState(0);
   const usage = storageUsage();
   const totalKb = (usage.reduce((sum, entry) => sum + entry.size, 0) / 1024).toFixed(1);
 
-  const notify = (message) => {
-    setToast(message);
-    refresh((value) => value + 1);
-    setTimeout(() => setToast(""), 2500);
-  };
-
   const download = () => {
+    const name = `fandomverse-admin-${new Date().toISOString().slice(0, 10)}.json`;
     const url = URL.createObjectURL(new Blob([exportAdminData()], { type: "application/json" }));
     const link = document.createElement("a");
     link.href = url;
-    link.download = `fandomverse-admin-${new Date().toISOString().slice(0, 10)}.json`;
+    link.download = name;
     link.click();
     URL.revokeObjectURL(url);
+    toast(`Saved as ${name}`, { title: "Backup downloaded" });
   };
 
   const upload = async (file) => {
     if (!file) return;
+    if (!file.name.toLowerCase().endsWith(".json")) {
+      toast("Choose a .json file exported from this admin panel.", { type: "error", title: "Wrong file type" });
+      return;
+    }
     try {
       importAdminData(await file.text());
-      notify("Admin data imported.");
+      refresh((value) => value + 1);
+      toast("Reload the website to see the imported content.", { title: "Admin data imported" });
     } catch {
-      notify("That file is not a valid FandomVerse export.");
+      toast("That file isn’t a valid FandomVerse export, so nothing was changed.", { type: "error", title: "Import failed" });
+    } finally {
+      if (fileRef.current) fileRef.current.value = "";
     }
   };
 
-  const danger = (message, action, done) => {
-    if (!window.confirm(message)) return;
+  const danger = async ({ title, message, confirmLabel }, action, done) => {
+    if (!(await confirm({ tone: "danger", title, message, confirmLabel }))) return;
     action();
     logActivity(done);
-    notify(done);
+    refresh((value) => value + 1);
+    toast(done, { type: "info", title: "Done" });
   };
 
   return (
@@ -94,22 +99,21 @@ export default function SettingsPage() {
 
         <Panel title="Danger zone" className="adm-danger">
           <div className="adm-danger-list">
-            <button type="button" className="adm-btn adm-btn-danger" onClick={() => danger("Remove all added items, edits and chatbot answers?", resetAdminData, "Reset all admin content changes")}>
+            <button type="button" className="adm-btn adm-btn-danger" onClick={() => danger({ title: "Reset all admin content?", message: "Every added item, edit and chatbot answer will be removed. Export a backup first if you might need them.", confirmLabel: "Reset content" }, resetAdminData, "Reset all admin content changes")}>
               <Trash2 size={15} /> Reset admin content
             </button>
-            <button type="button" className="adm-btn adm-btn-danger" onClick={() => danger("Reset visitor statistics?", resetAnalytics, "Reset visitor statistics")}>
+            <button type="button" className="adm-btn adm-btn-danger" onClick={() => danger({ title: "Reset visitor statistics?", message: "Page views and visit counts for this browser will start again from zero.", confirmLabel: "Reset analytics" }, resetAnalytics, "Reset visitor statistics")}>
               <Trash2 size={15} /> Reset analytics
             </button>
-            <button type="button" className="adm-btn adm-btn-danger" onClick={() => danger("Clear bookmarks saved in this browser?", clearBookmarks, "Cleared bookmarks")}>
+            <button type="button" className="adm-btn adm-btn-danger" onClick={() => danger({ title: "Clear all bookmarks?", message: "All bookmarks saved in this browser will be removed.", confirmLabel: "Clear bookmarks" }, clearBookmarks, "Cleared bookmarks")}>
               <Trash2 size={15} /> Clear bookmarks
             </button>
-            <button type="button" className="adm-btn adm-btn-danger" onClick={() => danger("Empty the shopping cart?", clearCart, "Emptied the cart")}>
+            <button type="button" className="adm-btn adm-btn-danger" onClick={() => danger({ title: "Empty the shopping cart?", message: "Every product in the temporary cart will be removed.", confirmLabel: "Empty cart" }, clearCart, "Emptied the cart")}>
               <Trash2 size={15} /> Empty cart
             </button>
           </div>
         </Panel>
       </div>
-      <Toast message={toast} />
     </>
   );
 }
