@@ -6,6 +6,7 @@ import tvArticles from "../JSON/TV_Shows/TV_Shows_article.json";
 import kpopArticles from "../JSON/K_pop/K_pop_article.json";
 import comicsArticles from "../JSON/Comics/Comics.json";
 import mangaArticles from "../JSON/Manga/Manga.json";
+import { readAdminData } from "../admin/adminStore";
 
 /*
   Every image, video and audio file in src/assets is bundled here once.
@@ -26,7 +27,13 @@ export const resolveMedia = (path) => {
   return url || null;
 };
 
-export const youtubeThumb = (id) => `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
+/* Every bundled image, for the admin panel's image picker. */
+export const assetImages = Object.entries(assetFiles)
+  .filter(([key]) => !key.endsWith(".mp4"))
+  .map(([key, url]) => ({ path: key.replace("../assets/", ""), url }))
+  .sort((a, b) => a.path.localeCompare(b.path));
+
+export const youtubeThumb =(id) => `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
 
 const slugify = (text) =>
   String(text)
@@ -253,8 +260,11 @@ const buildSection = (category, key) => {
 
 const sectionKeys = ["gallery", "videos", "audio", "characters", "events", "merchandise", "trailers"];
 
-export const categories = catalogData.categories.map((category) => {
-  const items = [
+/* Items as they ship in the JSON files, before any admin changes. */
+export const baseCategories = catalogData.categories.map((category) => ({
+  ...category,
+  heroImage: resolveMedia(category.heroImage),
+  items: [
     ...buildArticles(category),
     ...sectionKeys.flatMap((key) => buildSection(category, key)),
   ].map((item) => ({
@@ -263,13 +273,48 @@ export const categories = catalogData.categories.map((category) => {
     category: category.slug,
     categoryName: category.name,
     categoryPath: category.path,
-  }));
+  })),
+}));
+
+/* Turns an item created in the admin panel into the same shape as catalog items. */
+export const normalizeCustomItem = (item) => {
+  const category = baseCategories.find((entry) => entry.slug === item.category);
+  const price = Number(item.price) || 0;
+  const deluxe = Number(item.priceMax) || price;
+  const status =
+    item.type === "event" ? (item.date >= today ? "upcoming" : "past") : item.type === "trailer" ? item.status || "upcoming" : undefined;
   return {
-    ...category,
-    heroImage: resolveMedia(category.heroImage),
-    items,
+    ...item,
+    image: resolveMedia(item.image) || item.image || null,
+    video: resolveMedia(item.video) || item.video || undefined,
+    audio: resolveMedia(item.audio) || item.audio || undefined,
+    categoryName: category?.name || item.category,
+    categoryPath: category?.path || "/",
+    traits: item.traits?.length ? item.traits : undefined,
+    status,
+    price: item.type === "merchandise" ? price : undefined,
+    priceRange: item.type === "merchandise" ? [price, Math.max(price, deluxe)] : undefined,
+    body: item.type === "article" ? String(item.body || item.description).split(/\n\s*\n/) : undefined,
+    tags: [...new Set([...(item.tags || []), item.franchise?.toLowerCase(), item.kind, status].filter(Boolean))],
+    popularity: Number(item.popularity) || 95,
+    custom: true,
   };
-});
+};
+
+/* Applies admin overrides and custom items. Hidden items stay in the list, flagged, for the admin views. */
+export const applyAdminData = (categoryList, adminData) =>
+  categoryList.map((category) => ({
+    ...category,
+    items: [
+      ...adminData.items.filter((item) => item.category === category.slug).map(normalizeCustomItem),
+      ...category.items,
+    ].map((item) => (adminData.overrides[item.uid] ? { ...item, ...adminData.overrides[item.uid] } : item)),
+  }));
+
+export const categories = applyAdminData(baseCategories, readAdminData()).map((category) => ({
+  ...category,
+  items: category.items.filter((item) => !item.hidden),
+}));
 
 export const getCategory = (slug) => categories.find((category) => category.slug === slug);
 

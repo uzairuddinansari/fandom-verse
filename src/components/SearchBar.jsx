@@ -30,7 +30,7 @@ const SearchBar = () => {
       onChange={(e) => {
         setsearch(e.target.value);
       }}
-      placeholder="Search something..."
+      placeholder="Search photos and videos…"
       className="gallery-search-input"
     />
 

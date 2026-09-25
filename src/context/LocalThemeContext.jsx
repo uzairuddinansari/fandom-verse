@@ -3,6 +3,16 @@ import { defaultAppearanceSettings } from "../config/appearanceSettings";
 
 const ThemeContext = createContext(null);
 
+/* Adds a Google Fonts stylesheet the first time a font is selected (Inter ships in index.html). */
+const loadGoogleFont = (family) => {
+  if (!family || family === "Inter" || document.querySelector(`link[data-font="${family}"]`)) return;
+  const link = document.createElement("link");
+  link.rel = "stylesheet";
+  link.dataset.font = family;
+  link.href = `https://fonts.googleapis.com/css2?family=${encodeURIComponent(family)}:wght@300;400;500;600;700;800&display=swap`;
+  document.head.appendChild(link);
+};
+
 const loadSettings = () => {
   try {
     return JSON.parse(localStorage.getItem("lunaAppearanceSettings")) || defaultAppearanceSettings;
@@ -16,6 +26,7 @@ export function ThemeProvider({ children }) {
   const [customFonts, setCustomFonts] = useState([]);
 
   useEffect(() => {
+    [settings.typography.headingFont, settings.typography.bodyFont].forEach(loadGoogleFont);
     const root = document.documentElement;
     root.style.setProperty("--color-primary", settings.theme.primary);
     root.style.setProperty("--color-secondary", settings.theme.secondary);
@@ -46,6 +57,12 @@ export function ThemeProvider({ children }) {
 
   const resetSettings = () => setSettings(defaultAppearanceSettings);
 
+  const applyTheme = (theme, typography) =>
+    setSettings((current) => ({
+      theme: { ...current.theme, ...theme },
+      typography: { ...current.typography, ...typography },
+    }));
+
   const addCustomFont = async (file) => {
     if (!file) return;
     const name = file.name.replace(/\.(woff2?|ttf)$/i, "").replace(/[-_]/g, " ");
@@ -66,6 +83,7 @@ export function ThemeProvider({ children }) {
         updateTheme,
         updateTypography,
         resetSettings,
+        applyTheme,
         customFonts,
         addCustomFont,
         deleteCustomFont,

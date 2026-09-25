@@ -1,7 +1,12 @@
 import Hero from "../components/Hero";
-import UpcomingEvents from "../components/Mywebsite/UpcomingEvents";
-import AnimeNews from "../components/Mywebsite/AnimeNews";
-import { CategoryShowcase, FeaturedShowcase, HubStrip } from "../components/fandom/HomeSections";
+import {
+  CategoryShowcase,
+  FeaturedShowcase,
+  HomeCTA,
+  HomeEvents,
+  HomeNews,
+  HubStrip,
+} from "../components/fandom/HomeSections";
 
 const Home = () => {
   return (
@@ -10,8 +15,9 @@ const Home = () => {
       <HubStrip />
       <CategoryShowcase />
       <FeaturedShowcase />
-      <UpcomingEvents />
-      <AnimeNews />
+      <HomeEvents />
+      <HomeNews />
+      <HomeCTA />
     </>
   );
 };

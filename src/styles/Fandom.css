@@ -3264,18 +3264,53 @@
   }
 
   .home-category-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-auto-rows: 170px;
+    gap: 12px;
   }
 
-  .home-category-0,
+  .home-category-0 {
+    grid-column: span 2;
+    grid-row: span 1;
+  }
+
   .home-category-5,
   .home-category-6 {
     grid-column: span 1;
   }
 
-  .home-category-copy em {
-    max-height: 60px;
-    opacity: 1;
+  .home-category {
+    border-radius: 18px;
+  }
+
+  .home-category-copy {
+    padding: 14px;
+  }
+
+  .home-category-copy strong,
+  .home-category-0 .home-category-copy strong {
+    font-size: 20px;
+  }
+
+  .home-category-0 .home-category-copy strong {
+    font-size: 30px;
+  }
+
+  .home-category-copy em,
+  .home-category-0 .home-category-copy em {
+    display: none;
+  }
+
+  .home-category-symbol,
+  .home-category-0 .home-category-symbol {
+    font-size: 64px;
+  }
+
+  .home-category-arrow {
+    right: 12px;
+    bottom: 12px;
+    width: 34px;
+    height: 34px;
   }
 
   .home-spotlight {
@@ -3347,34 +3382,38 @@
   }
 }
 
-/* =========================================================
-   HOME HERO SLIDER — legibility over the artwork
-   (the original white "multiply" overlay left dark text on dark art)
-   ========================================================= */
-
-.fandom-hero .slide-image-overlay {
-  background:
-    linear-gradient(90deg, rgba(0, 0, 0, 0.84) 0%, rgba(0, 0, 0, 0.5) 45%, rgba(0, 0, 0, 0.12) 100%),
-    linear-gradient(0deg, rgba(0, 0, 0, 0.55) 0%, transparent 40%);
-  opacity: 1;
-  mix-blend-mode: normal;
+/* Shown while the admin panel bundle loads. */
+.adm-loading {
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+  color: var(--color-muted-text);
+  font-size: 14px;
+  font-weight: 600;
 }
 
-.fandom-hero .slide-content h1 {
-  color: #fff;
-  text-shadow: 0 4px 30px rgba(0, 0, 0, 0.35);
+.adm-loading::before {
+  content: "";
+  width: 36px;
+  height: 36px;
+  margin-bottom: 12px;
+  border: 3px solid var(--color-border);
+  border-top-color: var(--color-accent);
+  border-radius: 50%;
+  animation: gallery-spin 0.9s linear infinite;
 }
 
-.fandom-hero .slide-content p {
-  color: rgba(255, 255, 255, 0.84);
+@keyframes gallery-spin {
+  to { transform: rotate(360deg); }
 }
 
-.fandom-hero .slide-number {
-  color: rgba(255, 255, 255, 0.7);
+/* Sections whose cards slide in from the side must not widen the page on phones. */
+.home-featured,
+.home-categories {
+  overflow-x: clip;
 }
 
-.fandom-hero .hero-button:hover {
-  border-color: var(--color-accent);
-  color: #fff;
-  background: var(--color-accent);
+.home-featured-controls {
+  flex-wrap: wrap;
+  gap: 10px;
 }

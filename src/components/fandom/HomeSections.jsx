@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, ArrowUpRight, CalendarDays, Pause, Play } from "lucide-react";
-import { categories, detailPath, featuredContent, formatDate, sectionPath, upcomingReleases } from "../../fandom/catalog";
+import { ArrowRight, ArrowUpRight, Bookmark, Bot, CalendarDays, Clock3, MapPin, Pause, Play, Search, ShoppingBag, UserPlus } from "lucide-react";
+import { allContent, categories, detailPath, featuredContent, formatDate, sectionPath, upcomingReleases } from "../../fandom/catalog";
 import MediaModal from "./MediaModal";
 import "../../styles/Fandom.css";
+import "../../styles/Home.css";
 
 export function CategoryShowcase() {
   return (
@@ -151,6 +152,130 @@ export function HubStrip() {
           </Link>
         ))}
         <Link to="/releases" className="home-strip-all">Release calendar →</Link>
+      </div>
+    </section>
+  );
+}
+
+/* Agenda-style list of the next events across all hubs. */
+export function HomeEvents() {
+  const events = upcomingReleases.filter((item) => item.type === "event").slice(0, 5);
+  if (!events.length) return null;
+  return (
+    <section className="home-events" aria-labelledby="home-events-title">
+      <div className="fv-container home-events-layout">
+        <header className="home-events-intro">
+          <span className="fv-eyebrow">Meet the community</span>
+          <h2 id="home-events-title">Upcoming events</h2>
+          <p>Conventions, watch parties, workshops and meetups from every fandom — all in one calendar.</p>
+          <div className="fv-actions">
+            <Link className="fv-button" to="/releases"><CalendarDays size={16} /> Open calendar</Link>
+            <Link className="fv-button-outline" to="/search?type=event&sort=newest">All events</Link>
+          </div>
+        </header>
+
+        <ol className="home-agenda">
+          {events.map((event) => (
+            <li key={event.uid}>
+              <Link to={detailPath(event)} className="home-agenda-item">
+                <time dateTime={event.date}>
+                  <strong>{event.date.slice(8, 10)}</strong>
+                  <span>{formatDate(event.date, { month: "short" })}</span>
+                </time>
+                <img src={event.image} alt="" loading="lazy" />
+                <span className="home-agenda-copy">
+                  <small>{event.categoryName} · {event.kind}</small>
+                  <strong>{event.title}</strong>
+                  <em><MapPin size={13} /> {event.location}</em>
+                </span>
+                <span className="home-agenda-arrow" aria-hidden="true"><ArrowUpRight size={18} /></span>
+              </Link>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
+  );
+}
+
+/* One lead story plus a list of the latest reads from different hubs. */
+export function HomeNews() {
+  const picks = categories
+    .map((category) => category.items.filter((item) => item.type === "article")[1] || category.items.find((item) => item.type === "article"))
+    .filter(Boolean);
+  const [lead, ...rest] = picks;
+  if (!lead) return null;
+  return (
+    <section className="home-news" aria-labelledby="home-news-title">
+      <div className="fv-container">
+        <header className="fv-section-head">
+          <div>
+            <span className="fv-eyebrow">Fandom pulse</span>
+            <h2 id="home-news-title">Latest reads</h2>
+            <p>Deep dives, hidden details and explainers from all seven hubs.</p>
+          </div>
+          <Link className="fv-button-outline" to="/search?type=article">All articles <ArrowRight size={16} /></Link>
+        </header>
+
+        <div className="home-news-layout">
+          <Link to={detailPath(lead)} className="home-news-lead">
+            <img src={lead.image} alt="" loading="lazy" />
+            <span className="home-news-lead-copy">
+              <span className="fv-chip">{lead.categoryName}</span>
+              <strong>{lead.title}</strong>
+              <em>{lead.description}</em>
+              <small><Clock3 size={13} /> {lead.readTime}</small>
+            </span>
+          </Link>
+
+          <ul className="home-news-list">
+            {rest.slice(0, 5).map((item) => (
+              <li key={item.uid}>
+                <Link to={detailPath(item)}>
+                  <img src={item.image} alt="" loading="lazy" />
+                  <span>
+                    <small>{item.categoryName} · {item.readTime}</small>
+                    <strong>{item.title}</strong>
+                  </span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+const perks = [
+  [Search, "Search everything", "One search across all hubs and content types.", "/search"],
+  [Bookmark, "Save & export", "Bookmark anything, add notes, export your list.", "/bookmarks"],
+  [Bot, "Ask Nova", "Our chatbot recommends what to watch, read or play.", null],
+  [ShoppingBag, "Fan merch", "Browse collectibles and build a cart.", "/search?type=merchandise"],
+];
+
+export function HomeCTA() {
+  const total = allContent.length;
+  return (
+    <section className="home-cta" aria-labelledby="home-cta-title">
+      <div className="fv-container home-cta-inner">
+        <div className="home-cta-copy">
+          <span className="fv-eyebrow">Join the Verse</span>
+          <h2 id="home-cta-title">{total}+ stories, characters and collectibles. One home for every fan.</h2>
+          <div className="fv-actions">
+            <Link className="hh-btn hh-btn-primary" to="/account?mode=signup"><UserPlus size={18} /> Create free profile</Link>
+            <Link className="hh-btn hh-btn-ghost" to="/about">About FandomVerse</Link>
+          </div>
+        </div>
+        <ul className="home-perks">
+          {perks.map(([Icon, title, text, to]) => (
+            <li key={title}>
+              <Icon size={20} />
+              <strong>{to ? <Link to={to}>{title}</Link> : title}</strong>
+              <span>{text}</span>
+            </li>
+          ))}
+        </ul>
       </div>
     </section>
   );

@@ -47,6 +47,21 @@ The `dist/` folder is a static site and can be hosted on any static host (Netlif
 | Visitor counter and real-time clock | Bottom-left status bar (`components/fandom/SiteTools.jsx`) |
 | Breadcrumbs | Every hub, section and detail page |
 | Dummy login / signup | `/account` (UI only) |
+| Admin panel (extra) | `/admin` — see below |
+
+## Admin panel
+
+Open `/admin` and sign in with the demo account **admin / fandom2026** (a front-end demo gate — the SRS has no backend, so it is not real security).
+
+- **Dashboard** — live content counts, page views for the last 14 days, visits, bookmarks, cart value, upcoming releases and recent admin activity.
+- **Content** — search and filter all 300+ items by hub, type and state; feature, hide, edit or restore any item.
+- **Add content** — create articles, characters, events, merchandise, trailers, videos, audio or gallery images, with an image picker for every bundled asset and a live card preview.
+- **Analytics** — page views and visits per day (7/14/30 days), views by hub, bookmarks by type and a full page table.
+- **Chatbot** — add answers that take priority over the built-in knowledge base, and test how Nova replies.
+- **Appearance** — six accessible theme presets, custom colours and fonts; applied to the whole site instantly.
+- **Settings** — export/import all admin data as JSON, view browser storage, and reset data.
+
+Admin changes are stored in `localStorage` and layered over the JSON files when the site loads (the JSON files are never modified). Reload the website to see content changes.
 
 ## Data
 

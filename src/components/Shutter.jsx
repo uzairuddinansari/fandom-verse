@@ -313,6 +313,7 @@ const Shutter = ({ open, setOpen }) => {
             <RollingLink to="/about">About</RollingLink>
             <RollingLink to="/contact">Contact</RollingLink>
             <RollingLink to="/account">Login / Signup</RollingLink>
+            <RollingLink to="/admin">Admin</RollingLink>
           </nav>
         </div>
 

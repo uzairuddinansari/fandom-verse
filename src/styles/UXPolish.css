@@ -142,20 +142,6 @@ textarea {
     min-width: 0;
   }
 
-  .slide-content {
-    left: 24px;
-    width: calc(100% - 48px);
-  }
-
-  .slide-content h1 {
-    font-size: clamp(42px, 12vw, 65px);
-    letter-spacing: -2px;
-  }
-
-  .upcoming-cards {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
   .footer-main {
     grid-template-columns: 1fr;
   }
@@ -167,19 +153,6 @@ textarea {
 }
 
 @media (max-width: 520px) {
-  .upcoming-cards {
-    grid-template-columns: 1fr;
-  }
-
-  .slide-content p {
-    max-width: 100%;
-    font-size: 14px;
-  }
-
-  .hero-button {
-    min-height: 44px;
-  }
-
   .footer-topbar {
     align-items: flex-start;
     flex-direction: column;
@@ -192,7 +165,6 @@ textarea {
     scroll-behavior: auto;
   }
 
-  .fandom-hero *,
   .anime-footer *,
   .page-shutter {
     animation: none !important;

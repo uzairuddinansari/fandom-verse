@@ -10,10 +10,8 @@ export default defineConfig([
     // Legacy prototype modules (admin dashboard, browser extension) that are
     // not part of the FandomVerse app entry graph.
     "src/luna-extension/**",
-    "src/components/{AI,Addproducts,AdminStructure,Analytics,AppearanceCustomizer,Cammand,Collection,DashboardHome,firebase,HomeData,ImageShowcase,LiveVisitor,Login,Performance,ProtectedRoute,Reviews,ReviewsPanel,Robot,RobotModel,ShowPopup,TradingActivity,VisitorTracker}.jsx",
+    "src/components/{AI,ImageShowcase,Reviews,ReviewsPanel,Robot,RobotModel,ShowPopup}.jsx",
     "src/components/techwizjourney/Journey_Nav.jsx",
-    "src/context/ThemeContext.jsx",
-    "src/pages/Admin.jsx",
   ]),
   {
     files: ['**/*.{js,jsx}'],

@@ -1,6 +1,7 @@
 import GuideHeader from "../components/Installation/GuideHeader";
 import GuideHero from "../components/Installation/GuideHero";
 import GuideNavigation from "../components/Installation/GuideNavigation";
+import GuideSections from "../components/Installation/GuideSections";
 import "../styles/InstallationGuide.css";
 
 function InstallationGuide() {
@@ -14,11 +15,7 @@ function InstallationGuide() {
         <main className="installation-content">
           <GuideHero />
 
-          <section className="installation-placeholder">
-            <span>01</span>
-            <h2>Requirements</h2>
-            <p>The installation steps will be added here.</p>
-          </section>
+          <GuideSections />
         </main>
       </div>
     </div>

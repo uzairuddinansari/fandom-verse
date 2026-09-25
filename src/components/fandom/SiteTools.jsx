@@ -4,6 +4,7 @@ import { ArrowUp, CalendarDays, Clock3, Minus, Plus, ShoppingBag, Trash2, Users,
 import { formatPrice } from "../../fandom/catalog";
 import { cartTotals, changeQuantity, clearCart, useCart } from "../../fandom/store";
 import Chatbot from "./Chatbot";
+import { trackPageView } from "../../fandom/analytics";
 
 const TAX_RATE = 0.05;
 
@@ -116,6 +117,7 @@ export function ScrollToTop() {
   const { pathname } = useLocation();
   const previous = useRef(pathname);
   useEffect(() => {
+    trackPageView(pathname);
     const hub = (path) => path.split("/")[1]?.toLowerCase();
     const sameHub = hub(previous.current) === hub(pathname) && hub(pathname) !== "detail";
     previous.current = pathname;

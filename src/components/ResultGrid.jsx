@@ -1,153 +1,79 @@
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {fetchUnsplashData,fetchPixelsData} from "../API/GalleryAPI";
-import {setLoading,seterror,setResults,clearRresult} from "../Redux/feature/SearchSlide";
-import { useEffect, useState } from "react";
-import "../styles/Result.css"
-import "../styles/GallerySearch.css"
+import { Bookmark, Play } from "lucide-react";
+import { searchPhotos, searchVideos } from "../API/GalleryAPI";
+import { setQuery } from "../Redux/feature/SearchSlide";
+import { toggleBookmark, useBookmarks } from "../fandom/store";
+import MediaModal from "./fandom/MediaModal";
+import "../styles/Result.css";
+import "../styles/GallerySearch.css";
+
+/* Photo / video results from the local JSON catalog. */
 const ResultGrid = () => {
-  const [data, setdata] = useState([]);
   const dispatch = useDispatch();
-  const { query, activetab, loading, error } = useSelector((store) => store.search);
+  const { query, activetab } = useSelector((store) => store.search);
+  const bookmarks = useBookmarks();
+  const [openIndex, setOpenIndex] = useState(null);
 
-  useEffect(() => {
-    const getData = async () => {
-      try {
-        dispatch(setLoading());
-        let data = [];
-
-        if (activetab === "photos") {
-          const response = await fetchUnsplashData(query);
-
-          data = response.data.results.map((item) => ({
-            id: item.id,
-            type: "photo",
-            title: item.alt_description || "",
-            thumbnail: item.urls.thumb,
-            src: item.urls.full
-          }));
-        }
-
-        if (activetab === "videos") {
-          const response = await fetchPixelsData(query);
-
-          data = response.data.videos.map((item) => ({
-            id: item.id,
-            type: "video",
-            thumbnail: item.image,
-            src: item.video_files[1]?.link || ""
-          }));
-        }
-
-        setdata(data);
-        dispatch(setResults(data));
-
-      } catch (err) {
-        console.error(err);
-        dispatch(seterror(err.message));
-      }
-    };
-
-    if (query) {
-      getData();
-    }
-  }, [activetab, query, dispatch]);
-
-  const SaveNow = (item) => {
-  const savedImages = JSON.parse(
-    localStorage.getItem("savedImages") || "[]"
-  );
-
-  savedImages.push(item);
-
-  localStorage.setItem(
-    "savedImages",
-    JSON.stringify(savedImages)
-  );
-};
-
-
-
-
-
-  // Loader
-  if (loading) {
-    return (
-      <div className="gallery-status">
-        <div className="gallery-spinner"></div>
-      </div>
-    );
-  }
-
-
-  // Error
-  if (error) {
-    return (
-      <div className="gallery-status">
-        <p className="gallery-error">
-          Something went wrong: {error}
-        </p>
-      </div>
-    );
-  }
-  
-  const ClearNow = () =>{
-    setdata([]);
-    dispatch(clearRresult())
-  }
+  const results = activetab === "videos" ? searchVideos(query) : searchPhotos(query);
+  const modalItems = results.map((result) => result.item);
 
   return (
     <>
-
-    <div className="btn_parrent">
-     <button onClick={()=>
-        ClearNow()
-      } id="clear">
-        Clear Now
-      </button>
-      
+      <div className="btn_parrent">
+        <p className="gallery-count">
+          {results.length} {activetab === "videos" ? "video" : "photo"}{results.length === 1 ? "" : "s"}
+          {query && <> for “{query}”</>}
+        </p>
+        {query && (
+          <button onClick={() => dispatch(setQuery(""))} id="clear">
+            Clear search
+          </button>
+        )}
       </div>
-    <div className="gallery-results">
-     
-      {data.map((item) => (
-        <div key={item.id}>
-          {item.type === "photo" ? (
-            <div>
-              <img
-                src={item.src}
-                alt={item.title}
-                className="gallery-media"
-              />
 
-              <div className="des">
-                {item.title}
-              </div>
-
-              <button
-                onClick={() => SaveNow(item)}
-                className="gallery-save"
-              >
-                Save Now
-              </button>
-            </div>
-          ) : (
-            <div className="vid_parrent">
-            <video
-              src={item.src}
-              poster={item.thumbnail}
-              controls
-              className="gallery-media"
-            />
-            <button
-                onClick={() => SaveNow(item)}
-                className="gallery-save"
-              >
-                Save Now
-              </button>
-            </div>
-          )}
+      {results.length === 0 ? (
+        <div className="gallery-status">
+          <p className="gallery-error">Nothing matches “{query}”. Try another word, like “naruto” or “trailer”.</p>
         </div>
-      ))}
-    </div>
+      ) : (
+        <div className="gallery-results">
+          {results.map((result, index) => {
+            const saved = bookmarks.some((entry) => entry.uid === result.uid);
+            return (
+              <figure key={result.id} className="gallery-result">
+                <button type="button" className="gallery-open" onClick={() => setOpenIndex(index)} aria-label={`Open ${result.title}`}>
+                  <img src={result.thumbnail} alt={result.title} className="gallery-media" loading="lazy" />
+                  {result.type === "video" && (
+                    <span className="gallery-play" aria-hidden="true">
+                      <Play size={20} fill="currentColor" />
+                    </span>
+                  )}
+                </button>
+                <figcaption>
+                  <div>
+                    <strong className="des">{result.title}</strong>
+                    <small>{result.category}</small>
+                  </div>
+                  <button
+                    type="button"
+                    className={`gallery-save ${saved ? "saved" : ""}`}
+                    onClick={() => toggleBookmark(result.item)}
+                    aria-pressed={saved}
+                    aria-label={saved ? `Remove ${result.title} from bookmarks` : `Bookmark ${result.title}`}
+                  >
+                    <Bookmark size={14} fill={saved ? "currentColor" : "none"} /> {saved ? "Saved" : "Save"}
+                  </button>
+                </figcaption>
+              </figure>
+            );
+          })}
+        </div>
+      )}
+
+      {openIndex !== null && (
+        <MediaModal items={modalItems} index={openIndex} onNavigate={setOpenIndex} onClose={() => setOpenIndex(null)} />
+      )}
     </>
   );
 };

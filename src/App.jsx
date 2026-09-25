@@ -1,4 +1,5 @@
-import { Navigate, Route, Routes } from "react-router-dom";
+import { lazy, Suspense } from "react";
+import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import PageTransition from "./components/PageTransition";
 import Nav from "./components/Nav";
 import AnimeFooter from "./components/Mywebsite/Footer";
@@ -27,6 +28,8 @@ import { sections } from "./fandom/catalog";
 import "./styles/UXPolish.css";
 import "./styles/Fandom.css";
 
+const AdminApp = lazy(() => import("./admin/AdminApp"));
+
 /* The seven category hubs share one layout; Anime and Comics keep their bespoke heroes. */
 const hubs = [
   { slug: "anime", path: "/Anime", hero: <Anim_hero /> },
@@ -39,6 +42,19 @@ const hubs = [
 ];
 
 export default function App() {
+  const { pathname } = useLocation();
+
+  // The admin panel has its own layout, without the public nav, footer and floating tools.
+  if (pathname.toLowerCase().startsWith("/admin")) {
+    return (
+      <Suspense fallback={<div className="adm-loading">Loading admin…</div>}>
+        <Routes>
+          <Route path="/admin/*" element={<AdminApp />} />
+        </Routes>
+      </Suspense>
+    );
+  }
+
   return (
     <>
       <a className="skip-link" href="#main-content">Skip to content</a>

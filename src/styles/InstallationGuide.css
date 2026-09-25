@@ -486,3 +486,125 @@
     margin-top: 0;
   }
 }
+/* ---------- Guide sections ---------- */
+
+.guide-section {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 56px 0;
+  border-top: 1px solid var(--color-border);
+  scroll-margin-top: 100px;
+}
+
+.guide-section-number {
+  color: var(--color-accent);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+.guide-section h2 {
+  margin: 10px 0 18px;
+  font-family: var(--font-heading);
+  font-size: clamp(28px, 4vw, 40px);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+
+.guide-section p,
+.guide-list li,
+.guide-faq dd {
+  color: var(--color-muted-text);
+  font-size: 15px;
+  line-height: 1.75;
+}
+
+.guide-section p + p,
+.guide-section p + .guide-code,
+.guide-code + p {
+  margin-top: 14px;
+}
+
+.guide-section code {
+  padding: 2px 6px;
+  border-radius: 6px;
+  color: var(--color-text);
+  background: color-mix(in srgb, var(--color-text) 6%, transparent);
+  font-size: 0.9em;
+}
+
+.guide-list {
+  display: grid;
+  gap: 10px;
+  padding-left: 20px;
+  list-style: disc;
+}
+
+.guide-list strong,
+.guide-section p strong {
+  color: var(--color-text);
+}
+
+.guide-code {
+  position: relative;
+  overflow: hidden;
+  border-radius: 14px;
+  background: #111;
+}
+
+.guide-code pre {
+  padding: 18px 110px 18px 20px;
+  overflow-x: auto;
+  color: #f4f4f5;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.guide-code pre code {
+  padding: 0;
+  color: inherit;
+  background: none;
+}
+
+.guide-code button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.06);
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.guide-code button:hover {
+  border-color: var(--color-accent);
+  background: var(--color-accent);
+}
+
+.guide-faq {
+  display: grid;
+  gap: 6px;
+}
+
+.guide-faq dt {
+  margin-top: 14px;
+  font-weight: 800;
+}
+
+@media (max-width: 760px) {
+  .guide-section {
+    padding: 40px 0;
+  }
+
+  .guide-code pre {
+    padding: 52px 16px 16px;
+    font-size: 13px;
+  }
+}

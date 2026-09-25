@@ -3,7 +3,7 @@ const guideSections = [
   { id: "requirements", number: "01", title: "Requirements" },
   { id: "installation", number: "02", title: "Installation" },
   { id: "environment", number: "03", title: "Environment" },
-  { id: "firebase", number: "04", title: "Firebase Setup" },
+  { id: "admin", number: "04", title: "Admin Panel" },
   { id: "structure", number: "05", title: "Project Structure" },
   { id: "run", number: "06", title: "Run Project" },
   { id: "production", number: "07", title: "Production" },
