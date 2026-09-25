@@ -1,14 +1,13 @@
 import { Outlet, Link } from "react-router-dom";
+import "./Gaming_hero.jsx"
+import HeroSection from "../Gaming/Gaming_hero.jsx"
 
 export default function Gaming() {
   return (
+    <> 
+    <HeroSection />
+
     <main className="gaming-page">
-
-      <section className="gaming-header">
-        <h1>Gaming Hub</h1>
-        <p>17 items · updated regularly</p>
-      </section>
-
       <nav className="gaming-tabs">
         <Link to="/Gaming">Articles</Link>
         <Link to="/Gaming/gallery">Gallery</Link>
@@ -23,5 +22,6 @@ export default function Gaming() {
       <Outlet />
 
     </main>
+    </>
   );
 }

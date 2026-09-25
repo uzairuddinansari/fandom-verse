@@ -54,7 +54,7 @@ export default function Anime() {
         Merch
       </Link>
 
-      <Link to="/Anime/trailers" onMouseMove={handleMove} onMouseLeave={handleLeave}>
+      <Link to="/Anime/trailer" onMouseMove={handleMove} onMouseLeave={handleLeave}>
         Trailers
       </Link>
     </nav>

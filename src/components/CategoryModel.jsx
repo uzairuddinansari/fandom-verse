@@ -9,10 +9,10 @@ const categories = [
   { name: "Anime", model: robotModel, link: "/Anime" },
   { name: "Gaming", model: robotModel, link: "/gaming" },
   { name: "Movies", model: robotModel, link: "/movies" },
-  { name: "TV Shows", model: robotModel, link: "/tv-shows" },
-  { name: "K-Pop", model: robotModel, link: "/kpop" },
+  { name: "TV_Shows", model: robotModel, link: "/TV_Shows" },
+  { name: "K_Pop", model: robotModel, link: "/K_Pop" },
   { name: "Comics", model: robotModel, link: "/comics" },
-  { name: "Manga", model: robotModel, link: "/manga" },
+  { name: "Manga", model: robotModel, link: "/Manga" },
 ];
 
 function CategoryModel({ src }) {

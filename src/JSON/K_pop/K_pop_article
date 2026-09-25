@@ -1,0 +1,22 @@
+import btsImg from "../../assets/K_pop_Article/news-BTS.png";
+import blackpinkImg from "../../assets/K_pop_Article/BLACK PINK.webp";
+import strayKidsImg from "../../assets/K_pop_Article/STRAY KIDS.jpg";
+import twiceImg from "../../assets/K_pop_Article/TWICE.jfif";
+import seventeenImg from "../../assets/K_pop_Article/SEVENTEEN.avif";
+import newJeansImg from "../../assets/K_pop_Article/NEW JEANS.webp";
+import aespaImg from "../../assets/K_pop_Article/AESPA.jpg";
+import iveImg from "../../assets/K_pop_Article/IVE.webp";
+
+const articleImages = [
+     btsImg,
+     blackpinkImg,
+     strayKidsImg,
+     twiceImg,
+     seventeenImg,
+     newJeansImg,
+     aespaImg,
+     iveImg,
+  
+];
+
+export default articleImages;

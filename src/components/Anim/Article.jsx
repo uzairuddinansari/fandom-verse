@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import articleData from "../../JSON/articleGrid.json";
 import "../../styles/ArticleGrid.css";
 import articleImages from "../../JSON/articleImages.js";

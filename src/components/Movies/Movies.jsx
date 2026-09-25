@@ -1,13 +1,12 @@
 import { Outlet, Link } from "react-router-dom";
+import MovieHeroSection from "./M_hero.jsx"
 
 export default function Movies() {
   return (
+    <>
+    <MovieHeroSection/>
     <main className="movies-page">
 
-      <section className="movies-header">
-        <h1>Videos Hub</h1>
-        <p>17 items · updated regularly</p>
-      </section>
 
       <nav className="movies-tabs">
   <Link to="/Movies">Articles</Link>
@@ -23,6 +22,7 @@ export default function Movies() {
       <Outlet />
 
     </main>
+    </>
   );
 }
 

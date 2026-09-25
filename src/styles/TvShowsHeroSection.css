@@ -1,0 +1,282 @@
+h1,
+h2,
+h3 {
+  font-family: var(--font-heading);
+  font-weight: var(--heading-weight);
+}
+
+p,
+span,
+button {
+  font-family: var(--font-body);
+  font-weight: var(--body-weight);
+}
+
+.tv-wrapper {
+  background-color: var(--color-background);
+  color: var(--color-text);
+  min-height: 100vh;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+.tv-navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem 4rem;
+  background-color: var(--color-background);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.tv-brand-name {
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  color: var(--color-text);
+}
+
+.tv-nav-menu {
+  display: flex;
+  list-style: none;
+  gap: 2.5rem;
+}
+
+.tv-nav-item {
+  font-family: var(--font-body);
+  color: var(--color-muted-text);
+  font-size: 0.95rem;
+  font-weight: var(--body-weight);
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.tv-nav-item:hover,
+.tv-nav-item.active {
+  color: var(--color-text);
+}
+
+.tv-nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.tv-btn-login {
+  background: none;
+  border: none;
+  color: var(--color-text);
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+.tv-btn-login:hover {
+  color: var(--color-muted-text);
+}
+
+.tv-btn-cta {
+  background-color: var(--color-primary);
+  color: var(--color-text);
+  border: 1px solid var(--color-primary);
+  padding: 0.6rem 1.4rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.tv-btn-cta:hover {
+  opacity: 0.9;
+  border-color: var(--color-primary);
+}
+
+.tv-hero-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem 2rem 4rem;
+  gap: 2.5rem;
+}
+
+.tv-hero-frame {
+  width: 100%;
+  max-width: 1000px;
+  height: 380px;
+  border-radius: 20px;
+  border: 2px solid var(--color-border);
+  box-shadow: 0 0 35px rgba(124, 58, 237, 0.25);
+  overflow: hidden;
+  position: relative;
+  background-color: var(--color-secondary);
+}
+
+.tv-video-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.hero-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.video-tint {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(13, 15, 18, 0.2) 0%, rgba(26, 29, 36, 0.5) 100%);
+  pointer-events: none;
+}
+
+.tv-carousel-section {
+  width: 100%;
+  max-width: 1200px;
+  overflow: hidden;
+  position: relative;
+  padding: 1rem 0;
+}
+
+.tv-carousel-section::before,
+.tv-carousel-section::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  width: 100px;
+  height: 100%;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.tv-carousel-section::before {
+  left: 0;
+  background: linear-gradient(90deg, var(--color-background) 0%, transparent 100%);
+}
+
+.tv-carousel-section::after {
+  right: 0;
+  background: linear-gradient(-90deg, var(--color-background) 0%, transparent 100%);
+}
+
+.tv-carousel-track {
+  display: flex;
+  gap: 1.5rem;
+  width: max-content;
+  animation: scrollInfinite 20s linear infinite;
+}
+
+.tv-carousel-track:hover {
+  animation-play-state: paused;
+}
+
+@keyframes scrollInfinite {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.tv-show-card {
+  background-color: var(--color-secondary);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 0.75rem;
+  width: 200px;
+  flex-shrink: 0;
+  transition: border-color 0.3s ease, transform 0.3s ease;
+  cursor: pointer;
+}
+
+.tv-show-card:hover {
+  border-color: var(--color-primary);
+  transform: translateY(-5px);
+}
+
+.card-image-box {
+  width: 100%;
+  height: 140px;
+  border-radius: 8px;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  margin-bottom: 0.75rem;
+}
+
+.badge-ep {
+  position: absolute;
+  top: 0.5rem;
+  left: 0.5rem;
+  background-color: var(--color-primary);
+  color: var(--color-text);
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+}
+
+.badge-season {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: var(--color-text);
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.badge-season:hover {
+  border-color: var(--color-primary);
+}
+
+.card-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card-show-title {
+  font-family: var(--font-heading);
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--color-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 130px;
+}
+
+.card-show-sub {
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  font-weight: var(--body-weight);
+  color: var(--color-muted-text);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 0.1rem 0.4rem;
+  border-radius: 4px;
+}
+
+.card-show-sub:hover {
+  color: var(--color-text);
+  border-color: var(--color-primary);
+}
+
+@media (max-width: 768px) {
+  .tv-navbar {
+    padding: 1rem;
+  }
+
+  .tv-nav-menu {
+    display: none;
+  }
+
+  .tv-hero-frame {
+    height: 260px;
+  }
+}

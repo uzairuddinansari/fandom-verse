@@ -1,5 +1,10 @@
 import React, { useEffect, useState } from "react";
 import "../styles/FandomHero.css";
+import Anime from "../assets/HERO/Anime.jpeg"
+import Comics from "../assets/HERO/Comics.jpeg"
+import Games from "../assets/HERO/Games.jpeg"
+import K_pop from "../assets/HERO/K_pop.jpeg"
+import Manga from "../assets/HERO/Manga.jpeg"
 
 const AUTOPLAY_TIME = 3000;
 
@@ -15,8 +20,7 @@ const slides = [
     theme: "anime",
     accent: "ANIME",
     symbol: "ア",
-    image:
-      "https://images.unsplash.com/photo-1578632767115-351597cf2477?auto=format&fit=crop&w=2200&q=85"
+    image:Anime
   },
   {
     id: 2,
@@ -30,7 +34,7 @@ const slides = [
     accent: "GAMING",
     symbol: "遊",
     image:
-      "https://images.unsplash.com/photo-1593305841991-05c297ba4575?auto=format&fit=crop&w=2200&q=85"
+      Games
   },
   {
     id: 3,
@@ -72,7 +76,7 @@ const slides = [
     accent: "K-POP",
     symbol: "音",
     image:
-      "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=2200&q=85"
+      K_pop
   },
   {
     id: 6,
@@ -86,7 +90,7 @@ const slides = [
     accent: "COMICS",
     symbol: "漫",
     image:
-      "https://images.unsplash.com/photo-1608889825103-eb5ed706fc64?auto=format&fit=crop&w=2200&q=85"
+     Comics
   },
   {
     id: 7,
@@ -100,7 +104,7 @@ const slides = [
     accent: "MANGA",
     symbol: "本",
     image:
-      "https://images.unsplash.com/photo-1613376023733-0a73315d9b06?auto=format&fit=crop&w=2200&q=85"
+      Manga
   }
 ];
 

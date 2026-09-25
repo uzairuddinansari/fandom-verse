@@ -1,0 +1,42 @@
+[
+  {
+    "id": 1,
+    "title": "Shinobi Legends",
+    "animeName": "Naruto"
+  },
+  {
+    "id": 2,
+    "title": "Grand Line Adventures",
+    "animeName": "One Piece"
+  },
+  {
+    "id": 3,
+    "title": "Saiyan Warriors",
+    "animeName": "Dragon Ball Z"
+  },
+  {
+    "id": 4,
+    "title": "Beyond the Walls",
+    "animeName": "Attack on Titan"
+  },
+  {
+    "id": 5,
+    "title": "Breathing Styles",
+    "animeName": "Demon Slayer"
+  },
+  {
+    "id": 6,
+    "title": "United by Heroes",
+    "animeName": "My Hero Academia"
+  },
+  {
+    "id": 7,
+    "title": "Cursed Energy",
+    "animeName": "Jujutsu Kaisen"
+  },
+  {
+    "id": 8,
+    "title": "The Name of Death",
+    "animeName": "Death Note"
+  }
+]

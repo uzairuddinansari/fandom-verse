@@ -296,7 +296,7 @@ const Shutter = ({ open, setOpen }) => {
         <div ref={leftContentRef} className="left_content">
           <nav className="shutter_links">
             <RollingLink to="/">Home</RollingLink>
-            <RollingLink to="/about">About</RollingLink>
+            <RollingLink to="/Trailers">Trailers</RollingLink>
             <RollingLink to="/services">Services</RollingLink>
             <RollingLink to="/work">Work</RollingLink>
             <RollingLink to="/journal">Journal</RollingLink>
